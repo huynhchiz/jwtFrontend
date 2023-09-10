@@ -1,0 +1,227 @@
+.login-content-right {
+   // screen < 500
+   @media (max-width: 499px) {
+      width: 100%;
+      height: 100%;
+   }
+
+   .form-login {
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      padding: 16px 16px 24px 16px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      width: 396px;
+
+      // screen < 500
+      @media (max-width: 499px) {
+         width: 100%;
+         height: 100%;
+         border-radius: 0;
+      }
+   }
+
+   .title {
+      display: none;
+      margin-bottom: 8px;
+
+      h1 {
+         font-size: 20px;
+         font-weight: 750;
+         color: #1877f2;
+      }
+
+      // screen < 500
+      @media (max-width: 499px) {
+         display: flex;
+         justify-content: center;
+      }
+   }
+
+   .input-wrapper {
+      width: 100%;
+      text-align: center;
+   }
+
+   .input-wrapper + .input-wrapper {
+      margin-top: 12px;
+
+      // screen < 500
+      @media (max-width: 499px) {
+         margin-top: 8px;
+      }
+   }
+
+   .form-input {
+      padding: 14px 16px;
+      width: 100%;
+      max-width: 416px;
+      height: 52px;
+      font-size: 17px;
+      border-radius: 6px;
+      border: 1px solid #dddfe2;
+      caret-color: #1b74e4;
+
+      &:focus {
+         border-color: #1b74e4;
+         outline: #1b74e4;
+         box-shadow: 0 0 0 2px #e7f3ff;
+      }
+
+      // screen < 500
+      @media (max-width: 499px) {
+         height: 44px;
+         font-size: 14px;
+         border-radius: 3px;
+         border: 1px solid #3332320d;
+         outline: none;
+         background-color: #f5f6f7;
+         box-shadow: 0px 3px 2px -2px rgba(29, 28, 28, 0.1);
+      }
+   }
+
+   .login-btn-wrapper {
+      width: 100%;
+      text-align: center;
+   }
+
+   .login-btn {
+      margin-top: 16px;
+      width: 100%;
+      max-width: 416px;
+      font-size: 20px;
+      font-weight: 700;
+      height: 48px;
+      border: none;
+      background-color: #1877f2;
+      border-radius: 6px;
+      color: #fff;
+
+      &:focus-visible {
+         border: none;
+         outline: none;
+      }
+
+      // screen < 500
+      @media (max-width: 499px) {
+         margin-top: 12px;
+         height: 40px;
+         font-size: 17px;
+         border-radius: 4px;
+      }
+   }
+
+   .forget-password {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #1877f2;
+      background-color: transparent;
+      text-align: center;
+
+      &:hover {
+         cursor: pointer;
+         text-decoration: underline;
+      }
+   }
+
+   .big-line {
+      // screen < 500
+      @media (max-width: 499px) {
+         display: none;
+      }
+   }
+
+   .small-line {
+      display: none;
+      margin: 12px 0 4px 0;
+
+      // screen < 500
+      @media (max-width: 499px) {
+         display: flex;
+         align-items: center;
+      }
+
+      .span-line {
+         flex: 1;
+         height: 1px;
+         background-color: #ccd0d5;
+      }
+
+      .or-line {
+         margin: 0 12px;
+         font-size: 14px;
+         line-height: 18px;
+         color: #4b4f56;
+      }
+   }
+
+   .create-btn-wrapper {
+      margin-top: 12px;
+      text-align: center;
+   }
+
+   .create-user-btn {
+      padding: 0 16px;
+      height: 48px;
+      font-size: 17px;
+      font-weight: 650;
+      border-radius: 6px;
+      border-color: transparent;
+      background-color: #42b72a;
+      color: #fff;
+
+      &:hover {
+         background-color: #36a420;
+      }
+
+      // screen < 500
+      @media (max-width: 499px) {
+         width: 100%;
+         max-width: 334px;
+         padding: 4px;
+         height: 36px;
+         font-size: 15px;
+         font-weight: 450;
+         border-radius: 4px;
+         background-color: #fff;
+         color: #000;
+         border: 1px solid #bec3c9;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         white-space: nowrap;
+
+         &:hover {
+            background-color: transparent;
+         }
+      }
+   }
+
+   .under-login-form {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+
+      a {
+         color: #000;
+         font-size: 14px;
+         font-weight: 650;
+         text-decoration: none;
+
+         &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+         }
+      }
+
+      p {
+         margin-left: 4px;
+         font-size: 14px;
+      }
+
+      // screen < 500
+      @media (max-width: 499px) {
+         display: none;
+      }
+   }
+}
