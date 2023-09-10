@@ -1,9 +1,17 @@
 import './LoginContentRight.scss';
+import { useNavigate } from 'react-router-dom';
 
 function LoginContentRight() {
+   // hook de dieu huong trang cua react-router-dom
+   const navigate = useNavigate();
+
+   const handleCreateNewUser = () => {
+      navigate('/register');
+   };
+
    return (
       <div className="login-content-right">
-         <form className="form-login">
+         <div className="form-login">
             <div className="title">
                <h1>facebook</h1>
             </div>
@@ -32,9 +40,11 @@ function LoginContentRight() {
             </div>
 
             <div className="create-btn-wrapper">
-               <button className="create-user-btn">Create new account</button>
+               <button className="create-user-btn" onClick={handleCreateNewUser}>
+                  Create new account
+               </button>
             </div>
-         </form>
+         </div>
 
          <div className="under-login-form">
             {/*eslint-disable-next-line jsx-a11y/anchor-is-valid*/}

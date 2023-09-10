@@ -1,0 +1,33 @@
+.register-content-left {
+   margin-bottom: 24px;
+   max-width: 368px;
+
+   // screen > 900
+   @media (min-width: 900px) {
+      margin-top: 58px;
+   }
+
+   .title {
+      h1 {
+         font-size: 60px;
+         font-weight: 700;
+         color: #1877f2;
+
+         // 500 < screen < 900
+         @media (max-width: 900px) and (min-width: 500px) {
+            display: flex;
+            justify-content: center;
+         }
+      }
+   }
+   .description {
+      h4 {
+         font-size: 24px;
+         font-weight: 400;
+      }
+   }
+   // screen < 500
+   @media (max-width: 499px) {
+      display: none;
+   }
+}
