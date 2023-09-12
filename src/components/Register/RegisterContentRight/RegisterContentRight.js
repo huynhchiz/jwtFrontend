@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
+import axios from 'axios';
 
 import './RegisterContentRight.scss';
 import { useEffect, useState, useRef } from 'react';
@@ -10,6 +10,7 @@ function RegisterContentRight() {
    const [username, setUsername] = useState('');
    const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
+
    const [validEmail, setValidEmail] = useState(true);
    const [validPassword, setValidPassword] = useState(true);
    const [validConfirmPassword, setValidConfirmPassword] = useState(true);
@@ -36,7 +37,7 @@ function RegisterContentRight() {
 
    // call API
    useEffect(() => {
-      // axios.get('http://localhost:1997/api/test-api').then((data) => {
+      // axios.get('http://localhost:1997/api/ver1/test-api').then((data) => {
       //    console.log(data);
       // });
    }, []);
@@ -57,7 +58,7 @@ function RegisterContentRight() {
       unwarnInput(inputRef);
    };
 
-   // check input value khi blur khoi input
+   // check required value khi blur khoi input hoac nhan submit
    const handleCheckValue = (inputRef, checkValid) => {
       if (!inputRef.value) {
          warnInput(inputRef);
@@ -65,12 +66,13 @@ function RegisterContentRight() {
          unwarnInput(inputRef);
       }
 
+      // thêm 1 hàm check valid đối với email, password, confirmpassword
       if (checkValid) {
          checkValid();
       }
    };
 
-   // clear input values sau khi submit thanh cong
+   // clear input values
    const clearInputValues = () => {
       setEmail('');
       setPhone('');
@@ -123,7 +125,7 @@ function RegisterContentRight() {
    const handleRegister = (e) => {
       e.preventDefault();
 
-      // khúc này vừa mounted thì allRef items nó ra undefined, nên phải check khi submit
+      // khúc này vừa mounted thì allRef items nó ra undefined, nên phải check khi submit (tạm)
       const checkInputUndefined = allRef.every((ref) => ref === undefined);
 
       if (!checkInputUndefined) {
@@ -143,8 +145,12 @@ function RegisterContentRight() {
          });
 
          if (isFillAll && validEmail && validPassword && validConfirmPassword) {
-            const inputData = { email, phone, username, password };
-            console.log('show inputData: ', inputData);
+            axios.post('http://localhost:1997/api/ver1/register', {
+               email,
+               phone,
+               username,
+               password,
+            });
             clearInputValues();
          }
       } else {
@@ -159,8 +165,7 @@ function RegisterContentRight() {
             </div>
 
             <div className="input-wrapper">
-               {!validEmail && <div className="pop-warning">Invalid email!</div>}
-
+               {!validEmail && <div className="pop-invalid">Invalid email!</div>}
                <input
                   className="form-input"
                   type="text"
@@ -197,7 +202,7 @@ function RegisterContentRight() {
             </div>
 
             <div className="input-wrapper">
-               {!validPassword && <div className="pop-warning">Password must be longer then 6!</div>}
+               {!validPassword && <div className="pop-invalid">Password must be longer then 6!</div>}
                <input
                   className="form-input"
                   type="password"
@@ -210,7 +215,7 @@ function RegisterContentRight() {
             </div>
 
             <div className="input-wrapper">
-               {!validConfirmPassword && <div className="pop-warning">Incorrect password!</div>}
+               {!validConfirmPassword && <div className="pop-invalid">Incorrect password!</div>}
                <input
                   className="form-input"
                   type="password"
