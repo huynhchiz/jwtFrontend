@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useState, useRef } from 'react';
 
 import './RegisterContentRight.scss';
-import { useEffect, useState, useRef } from 'react';
+import { registerNewUser } from '../../../services/userService';
 
 function RegisterContentRight() {
    const [email, setEmail] = useState('');
@@ -15,13 +15,24 @@ function RegisterContentRight() {
    const [validPassword, setValidPassword] = useState(true);
    const [validConfirmPassword, setValidConfirmPassword] = useState(true);
 
+   const [existEmail, setExistEmail] = useState({
+      isExist: false,
+      message: '',
+   });
+   const [existPhone, setExistPhone] = useState({
+      isExist: false,
+      message: '',
+   });
+
+   const [registerSuccess, setRegisterSuccess] = useState(false);
+
    const emailRef = useRef();
    const phoneRef = useRef();
    const usernameRef = useRef();
    const passwordRef = useRef();
    const confirmPasswordRef = useRef();
 
-   const allRef = [
+   const allRefInput = [
       emailRef.current,
       phoneRef.current,
       usernameRef.current,
@@ -35,13 +46,6 @@ function RegisterContentRight() {
       navigate('/login');
    };
 
-   // call API
-   useEffect(() => {
-      // axios.get('http://localhost:1997/api/ver1/test-api').then((data) => {
-      //    console.log(data);
-      // });
-   }, []);
-
    // hien thi warning
    const warnInput = (input) => {
       input.closest('.input-wrapper').className = 'input-wrapper form-warning';
@@ -53,9 +57,14 @@ function RegisterContentRight() {
    };
 
    // onChange inputs
-   const handleChangeInputValue = (event, setState, inputRef) => {
+   const handleChangeInputValue = (event, setState, inputRef, clearExistedWarning) => {
       setState(event.target.value);
       unwarnInput(inputRef);
+
+      // thêm 1 hàm clear warning existed email, phone (nếu đang warning)
+      if (clearExistedWarning) {
+         clearExistedWarning();
+      }
    };
 
    // check required value khi blur khoi input hoac nhan submit
@@ -122,15 +131,15 @@ function RegisterContentRight() {
    };
 
    // xu ly submit
-   const handleRegister = (e) => {
+   const handleRegister = async (e) => {
       e.preventDefault();
 
-      // khúc này vừa mounted thì allRef items nó ra undefined, nên phải check khi submit (tạm)
-      const checkInputUndefined = allRef.every((ref) => ref === undefined);
+      // khúc này vừa mounted thì allRefInput items nó ra undefined, nên phải check khi submit (tạm)
+      const checkInputUndefined = allRefInput.every((ref) => ref === undefined);
 
       if (!checkInputUndefined) {
          // check required từng input để warning
-         allRef.forEach((ref) => {
+         allRefInput.forEach((ref) => {
             handleCheckValue(ref);
          });
 
@@ -140,23 +149,40 @@ function RegisterContentRight() {
          checkConfirmPassword();
 
          // check required all
-         let isFillAll = allRef.every((ref) => {
+         let isFillAll = allRefInput.every((ref) => {
             return ref.value !== '' && ref.value !== 'undefined';
          });
 
          if (isFillAll && validEmail && validPassword && validConfirmPassword) {
-            axios.post('http://localhost:1997/api/ver1/register', {
-               email,
-               phone,
-               username,
-               password,
-            });
-            clearInputValues();
+            // post API
+            let res = await registerNewUser(email, phone, username, password);
+            let resData = res.data;
+
+            if (parseInt(resData.EC) === 0) {
+               // register success
+               console.log('success: ', resData.EM);
+               clearInputValues();
+               setRegisterSuccess(true);
+            } else if (parseInt(resData.EC) === 1) {
+               // existed data
+               console.log('existed data: ', resData.EM);
+               if (resData.TYPE === 'email') {
+                  // existed email
+                  setExistEmail({ isExist: true, message: resData.EM });
+               } else if (resData.TYPE === 'phone') {
+                  // existed phone
+                  setExistPhone({ isExist: true, message: resData.EM });
+               }
+            } else {
+               console.log('fail: ', resData.EM);
+            }
          }
       } else {
          document.querySelectorAll('.form-input').forEach((item) => warnInput(item));
       }
    };
+
+   ////////////// R E N D E R //////////////////////////////////////////////////////////////////
    return (
       <div className="register-content-right">
          <div className="form-register">
@@ -166,25 +192,41 @@ function RegisterContentRight() {
 
             <div className="input-wrapper">
                {!validEmail && <div className="pop-invalid">Invalid email!</div>}
+               {existEmail.isExist && <div className="pop-invalid">{existEmail.message}</div>}
                <input
                   className="form-input"
                   type="text"
                   placeholder="Email address"
                   ref={emailRef}
                   value={email}
-                  onChange={(e) => handleChangeInputValue(e, setEmail, emailRef.current)}
+                  onChange={(e) =>
+                     handleChangeInputValue(
+                        e,
+                        setEmail,
+                        emailRef.current,
+                        setExistEmail({ isExist: true, message: '' }),
+                     )
+                  }
                   onBlur={() => handleCheckValue(emailRef.current, checkValidEmail)}
                />
             </div>
 
             <div className="input-wrapper">
+               {existPhone.isExist && <div className="pop-invalid">{existPhone.message}</div>}
                <input
                   className="form-input"
                   type="text"
                   placeholder="Phone number"
                   ref={phoneRef}
                   value={phone}
-                  onChange={(e) => handleChangeInputValue(e, setPhone, phoneRef.current)}
+                  onChange={(e) =>
+                     handleChangeInputValue(
+                        e,
+                        setPhone,
+                        phoneRef.current,
+                        setExistPhone({ isExist: true, message: '' }),
+                     )
+                  }
                   onBlur={() => handleCheckValue(phoneRef.current)}
                />
             </div>
@@ -241,11 +283,22 @@ function RegisterContentRight() {
             </div>
 
             <div className="create-btn-wrapper">
-               <button className="create-user-btn" onClick={handleLoginPage}>
+               <button className="backtologin-btn" onClick={handleLoginPage}>
                   Already have an account. Login
                </button>
             </div>
          </div>
+
+         {registerSuccess && (
+            <div className="modal-register-wrapper">
+               <div className="modal-register-success">
+                  <h3 className="modal-title">Your account is successfully created!</h3>
+                  <button className="backtologin-btn register-done-btn" onClick={handleLoginPage}>
+                     Login
+                  </button>
+               </div>
+            </div>
+         )}
       </div>
    );
 }

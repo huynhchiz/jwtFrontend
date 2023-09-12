@@ -8,11 +8,11 @@
    .form-register {
       display: flex;
       flex-direction: column;
-      background-color: #fff;
-      padding: 16px 16px 24px 16px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
-      border-radius: 6px;
       width: 396px;
+      padding: 16px 16px 24px 16px;
+      border-radius: 6px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
 
       // screen < 500
       @media (max-width: 499px) {
@@ -201,7 +201,7 @@
       text-align: center;
    }
 
-   .create-user-btn {
+   .backtologin-btn {
       padding: 0 16px;
       height: 48px;
       font-size: 17px;
@@ -234,6 +234,56 @@
 
          &:hover {
             background-color: transparent;
+         }
+      }
+   }
+
+   .modal-register-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1;
+
+      @keyframes opacity-show {
+         from {
+            opacity: 0;
+         }
+         to {
+            opacity: 1;
+         }
+      }
+
+      .modal-register-success {
+         position: fixed;
+         top: 30%;
+         left: 50%;
+         transform: translateX(-50%);
+         padding: 32px;
+         background-color: #fff;
+         border-radius: 6px;
+         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+         text-align: center;
+         z-index: 100;
+         animation: opacity-show 0.3s ease-in;
+
+         .modal-title {
+            margin-bottom: 24px;
+            font-size: 24px;
+            font-weight: 400;
+         }
+
+         .register-done-btn {
+            background-color: #1877f2;
+
+            // screen < 500
+            @media (max-width: 499px) {
+               background-color: #fff;
+            }
          }
       }
    }
