@@ -81,6 +81,33 @@
       }
    }
 
+   .form-warning {
+      position: relative;
+      border-radius: 6px;
+
+      .form-input {
+         border: 1px solid #f23918;
+      }
+
+      &::after {
+         content: '';
+         position: absolute;
+         top: 50%;
+         transform: translateY(-50%);
+         right: 12px;
+         width: 12px;
+         height: 12px;
+         border-radius: 50%;
+         background-color: #f23918;
+         opacity: 0.5;
+      }
+
+      // screen < 500
+      @media (max-width: 499px) {
+         border-radius: 3px;
+      }
+   }
+
    .login-btn-wrapper {
       width: 100%;
       text-align: center;
