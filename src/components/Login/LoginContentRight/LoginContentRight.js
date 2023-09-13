@@ -8,6 +8,11 @@ function LoginContentRight() {
    const [loginValue, setLoginValue] = useState('');
    const [password, setPassword] = useState('');
 
+   const [incorrectLogin, setIncorrectLogin] = useState({
+      isIncorrect: false,
+      message: '',
+   });
+
    const loginValueRef = useRef();
    const passwordRef = useRef();
 
@@ -52,9 +57,8 @@ function LoginContentRight() {
    };
 
    // submit login
-   const handleLogin = async (e) => {
-      e.preventDefault();
-
+   const handleLogin = async () => {
+      // check required input
       if (!loginValue) {
          warnInput(loginValueRef.current);
          return;
@@ -65,10 +69,50 @@ function LoginContentRight() {
          return;
       }
 
-      let data = await loginUser(loginValue, password);
-      console.log(data);
+      //
+      let res = await loginUser(loginValue, password);
+      let resData = res.data;
+
+      // success login
+      if (resData && +resData.EC === 0) {
+         console.log('success: ', resData.EM);
+
+         // set user login session
+         let data = {
+            isAuthenticated: true,
+            token: 'fake token',
+         };
+         // sessionStorage : khi close tab se xoa khoi storage (khac voi localStorage)
+         sessionStorage.setItem('loginUser', JSON.stringify(data));
+
+         // chuyen huong page
+         navigate('/users');
+
+         // fix tạm lỗi ko tự re-render component App khi chuyển hướng sang /users để hiện Nav
+         window.location.reload();
+         // học thêm redux để quản lý props phức tạp
+      }
+
+      // fail login
+      if (resData && +resData.EC !== 0) {
+         setIncorrectLogin({
+            isIncorrect: true,
+            message: resData.EM,
+         });
+
+         console.log('fail: ', resData.EM);
+         return;
+      }
    };
 
+   // press enter to login
+   const handleEnter = (e) => {
+      if (e.code === 'Enter' && e.charCode === 0) {
+         handleLogin();
+      }
+   };
+
+   // RENDER
    return (
       <div className="login-content-right">
          <div className="form-login">
@@ -96,8 +140,11 @@ function LoginContentRight() {
                   ref={passwordRef}
                   onChange={handlePasswordValue}
                   onBlur={handleCheckRequiredPassword}
+                  onKeyDown={handleEnter}
                />
             </div>
+
+            {incorrectLogin.isIncorrect && <div className="incorrect-login">{incorrectLogin.message}</div>}
 
             <div className="login-btn-wrapper">
                <button className="login-btn" onClick={handleLogin}>
