@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import './LoginContentRight.scss';
 import { loginUser } from '../../../services/userService';
@@ -15,6 +15,16 @@ function LoginContentRight() {
 
    const loginValueRef = useRef();
    const passwordRef = useRef();
+
+   // neu dang co session login thi ko cho vao /login nua
+   useEffect(() => {
+      let session = JSON.parse(sessionStorage.getItem('loginUser'));
+
+      if (session) {
+         navigate('/');
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    // hook de dieu huong trang cua react-router-dom
    const navigate = useNavigate();
