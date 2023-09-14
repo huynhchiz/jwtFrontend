@@ -1,5 +1,9 @@
 function Projects() {
-   return <div>Projects page</div>;
+   return (
+      <div>
+         <h1>PROJECTS PAGE</h1>
+      </div>
+   );
 }
 
 export default Projects;

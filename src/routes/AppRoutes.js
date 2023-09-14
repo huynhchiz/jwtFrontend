@@ -16,22 +16,10 @@ function AppRoutes() {
             <Route path="/register" element={<Register />} />
 
             {/* private routes */}
-            <Route
-               path="/users"
-               element={
-                  <Private>
-                     <Users />
-                  </Private>
-               }
-            />
-            <Route
-               path="/projects"
-               element={
-                  <Private>
-                     <Projects />
-                  </Private>
-               }
-            />
+            <Route element={<Private />}>
+               <Route path="/users" exact element={<Users />} />
+               <Route path="/projects" exact element={<Projects />} />
+            </Route>
 
             {/*  */}
             <Route path="*" element={'404 not found'} exact="true" />

@@ -30,9 +30,7 @@ const Nav = (props) => {
                   <NavLink to="/users">User</NavLink>
                   <NavLink to="/projects">Projects</NavLink>
                </div>
-               <div className="login-div">
-                  <NavLink to="/login">Login</NavLink>
-               </div>
+               <div className="login-div">{/* <NavLink to="/login">Login</NavLink> */}</div>
             </div>
          )}
       </>

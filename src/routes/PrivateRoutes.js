@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-function PrivateRoutes({ protectRoute }) {
+const PrivateRoutes = () => {
    const navigate = useNavigate();
 
-   let session = JSON.parse(sessionStorage.getItem('loginUser'));
+   // cac route trong PrivateRoutes khi truy cap vao se dc check boi ham nay (check session login)
    useEffect(() => {
+      let session = JSON.parse(sessionStorage.getItem('loginUser'));
       if (!session || !session.isAuthenticated) {
          navigate('/login');
-         return;
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
-   return <>{protectRoute}</>;
-}
+   return <Outlet />;
+};
 
 export default PrivateRoutes;
