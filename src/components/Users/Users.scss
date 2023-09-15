@@ -19,27 +19,22 @@
       justify-content: center;
       align-items: center;
    }
+}
 
-   .pagination-wrapper {
-      ul {
-         display: flex;
+.pagination {
+   .page-item {
+      .page-link {
+         background-color: #212529;
+         color: #fff;
+         border: 1px solid #fff;
       }
+   }
 
-      li {
-         padding: 8px 12px;
-         line-height: 100%;
-         text-align: center;
-         border: 1px solid #000;
-         list-style-type: none;
-      }
-
-      li + li {
-         margin-left: 8px;
-      }
-
-      a {
-         color: #000;
-         text-decoration: none;
+   .active {
+      .page-link {
+         color: #212529;
+         background-color: #fff;
+         border: 1px solid #212529;
       }
    }
 }

@@ -1,22 +1,35 @@
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import ReactPaginate from 'react-paginate';
 
 import './Users.scss';
-import { fetchAllUser } from '../../services/userService';
+import { fetchAllUser as fetchUserService } from '../../services/userService';
 
 function Users(props) {
    const [listUsers, setListUsers] = useState([]);
+   const [currentPage, setCurrentPage] = useState(1);
+   const [totalPage, setTotalPage] = useState(0);
 
+   const [limit, setLimit] = useState(3); // limit là max số user trong 1 page
+
+   // fetch data mỗi lần currentPage thay đổi
    useEffect(() => {
       fetchUsers();
-   }, []);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [currentPage]);
 
    const fetchUsers = async () => {
-      let res = await fetchAllUser();
+      let res = await fetchUserService(currentPage, limit);
 
       if (res && res.data && +res.data.EC === 0) {
-         setListUsers(res.data.DT);
+         setListUsers(res.data.DT.usersInOnePage);
+         setTotalPage(res.data.DT.totalPage);
       }
+   };
+
+   // hàm của thư viện react-paginate
+   const handlePageClick = async (e) => {
+      setCurrentPage(+e.selected + 1); //e.selected là page clicked
    };
 
    return (
@@ -39,6 +52,7 @@ function Users(props) {
                      <th scope="col">Name</th>
                      <th scope="col">Phone</th>
                      <th scope="col">Type</th>
+                     <th scope="col">Actions</th>
                   </tr>
                </thead>
                <tbody>
@@ -52,6 +66,10 @@ function Users(props) {
                               <td>{item.username ? item.username : ''}</td>
                               <td>{item.phone ? item.phone : ''}</td>
                               <td>{item.Usertype ? item.Usertype.description : ''}</td>
+                              <td>
+                                 <button className="btn btn-outline-warning mx-2">Edit</button>
+                                 <button className="btn btn-outline-danger">Delete</button>
+                              </td>
                            </tr>
                         ))}
                      </>
@@ -62,28 +80,30 @@ function Users(props) {
             </table>
          </div>
          <div className="user-footer">
-            <div className="pagination-wrapper">
-               <ul>
-                  <li>
-                     <a href="#">{'<'}</a>
-                  </li>
-                  <li>
-                     <a href="#">1</a>
-                  </li>
-                  <li>
-                     <a href="#">2</a>
-                  </li>
-                  <li>
-                     <a href="#">3</a>
-                  </li>
-                  <li>
-                     <a href="#">4</a>
-                  </li>
-                  <li>
-                     <a href="#">{'>'}</a>
-                  </li>
-               </ul>
-            </div>
+            {totalPage > 0 && (
+               <>
+                  <ReactPaginate
+                     nextLabel="next >"
+                     onPageChange={handlePageClick}
+                     pageRangeDisplayed={1}
+                     marginPagesDisplayed={1}
+                     pageCount={totalPage}
+                     previousLabel="< previous"
+                     pageClassName="page-item"
+                     pageLinkClassName="page-link"
+                     previousClassName="page-item"
+                     previousLinkClassName="page-link"
+                     nextClassName="page-item"
+                     nextLinkClassName="page-link"
+                     breakLabel="..."
+                     breakClassName="page-item"
+                     breakLinkClassName="page-link"
+                     containerClassName="pagination"
+                     activeClassName="active"
+                     renderOnZeroPageCount={null}
+                  />
+               </>
+            )}
          </div>
       </div>
    );
