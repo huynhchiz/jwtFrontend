@@ -27,7 +27,7 @@ const Nav = (props) => {
                   <NavLink to="/" exact="true">
                      Home
                   </NavLink>
-                  <NavLink to="/users">User</NavLink>
+                  <NavLink to="/users">Users</NavLink>
                   <NavLink to="/projects">Projects</NavLink>
                </div>
                <div className="login-div">{/* <NavLink to="/login">Login</NavLink> */}</div>

@@ -1,0 +1,45 @@
+.user-container {
+   .users-header {
+   }
+
+   .title {
+   }
+
+   .actions {
+   }
+
+   .refresh-btn {
+   }
+
+   .add-btn {
+   }
+
+   .user-footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+
+   .pagination-wrapper {
+      ul {
+         display: flex;
+      }
+
+      li {
+         padding: 8px 12px;
+         line-height: 100%;
+         text-align: center;
+         border: 1px solid #000;
+         list-style-type: none;
+      }
+
+      li + li {
+         margin-left: 8px;
+      }
+
+      a {
+         color: #000;
+         text-decoration: none;
+      }
+   }
+}

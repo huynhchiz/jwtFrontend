@@ -140,6 +140,7 @@ function LoginContentRight() {
                   ref={loginValueRef}
                   onChange={handleLoginValue}
                   onBlur={handleCheckRequiredLoginValue}
+                  onKeyDown={handleEnter}
                />
             </div>
             <div className="input-wrapper">
