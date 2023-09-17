@@ -3,11 +3,17 @@ import 'bootstrap/dist/css/bootstrap.css';
 import ReactPaginate from 'react-paginate';
 
 import './Users.scss';
-import { fetchAllUser as fetchUserService, deleteUser as deleteUserService } from '../../services/userService';
+import {
+   fetchAllUser as fetchUserService,
+   deleteUser as deleteUserService,
+   createUser as createUserService,
+   updateUser as updateUserService,
+} from '../../services/userService';
+
 import ModalDelete from '../reuses/ModalDelete/ModalDelete';
 import ModalNoti from '../reuses/ModalNoti/ModalNoti';
 import ModalInfoUser from '../reuses/ModalInfoUser/ModalInfoUser';
-import { registerNewUser as createNewUserService } from '../../services/userService';
+// import { registerNewUser as createNewUserService } from '../../services/userService';
 import checkValidEmail from '../../functions/checkValidEmail';
 import checkValidPassword from '../../functions/checkValidPassword';
 
@@ -120,7 +126,7 @@ function Users(props) {
 
       if (isAllRequired) {
          if (validEmail && validPassword && confirmPassword === password) {
-            let res = await createNewUserService(email, phone, username, password);
+            let res = await createUserService(email, phone, username, password);
             let resData = res.data;
 
             // register success
@@ -165,8 +171,43 @@ function Users(props) {
       setAddress(user.address);
    };
 
-   const handleSaveUpdateUser = () => {
-      // update
+   const handleSaveUpdateUser = async () => {
+      let isAllRequired = email !== '' && phone !== '' && username !== '' && address !== '';
+      let validEmail = checkValidEmail(email);
+
+      if (isAllRequired) {
+         if (validEmail) {
+            let res = await updateUserService(email, phone, username, address, selectUser.id);
+            let resData = res.data;
+
+            // update success
+            if (+resData.EC === 0) {
+               console.log('success: ', resData.EM);
+               setShowModalInfor(false);
+               setShowPopUpdateSuccess(true);
+               await fetchUsers();
+
+               // existed data
+            } else if (+resData.EC === 1) {
+               console.log('existed data: ', resData.EM);
+
+               // existed email by another user
+               if (resData.TYPE === 'email') {
+                  console.log(resData.EM);
+
+                  // existed phone by another user
+               } else if (resData.TYPE === 'phone') {
+                  console.log(resData.EM);
+               }
+
+               // update unsuccess
+            } else {
+               console.log('fail: ', resData.EM);
+            }
+         }
+      } else {
+         console.log('unrequired!');
+      }
    };
 
    // hide modal infor user (add, edit, show)
