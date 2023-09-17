@@ -1,0 +1,23 @@
+.user-form {
+   .input-wrapper {
+      display: flex;
+
+      // screen < 500
+      @media (max-width: 499px) {
+         display: block;
+      }
+
+      + .input-wrapper {
+         margin-top: 8px;
+      }
+
+      label {
+         width: 150px;
+      }
+   }
+
+   .input-form {
+      width: 100%;
+      flex: 1;
+   }
+}

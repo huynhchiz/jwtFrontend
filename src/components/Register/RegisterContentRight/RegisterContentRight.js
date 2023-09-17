@@ -4,6 +4,9 @@ import { useState, useRef } from 'react';
 import './RegisterContentRight.scss';
 import { registerNewUser } from '../../../services/userService';
 
+import { default as letCheckValidEmail } from '../../../functions/checkValidEmail';
+import { default as letCheckValidPassword } from '../../../functions/checkValidPassword';
+
 function RegisterContentRight() {
    const [email, setEmail] = useState('');
    const [phone, setPhone] = useState('');
@@ -92,28 +95,26 @@ function RegisterContentRight() {
 
    // check valid Email
    const checkValidEmail = () => {
-      if (email !== '') {
-         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-         if (!regex.test(email)) {
-            setValidEmail(false);
-            warnInput(emailRef.current);
-         } else {
-            setValidEmail(true);
-            unwarnInput(emailRef.current);
-         }
+      let validEmail = letCheckValidEmail(email);
+      if (validEmail) {
+         setValidEmail(true);
+         unwarnInput(emailRef.current);
+      } else {
+         setValidEmail(false);
+         warnInput(emailRef.current);
       }
    };
 
    // check valid password
    const checkValidPassword = () => {
-      if (password !== '') {
-         if (password.length < 6) {
-            setValidPassword(false);
-            warnInput(passwordRef.current);
-         } else {
-            setValidPassword(true);
-            unwarnInput(passwordRef.current);
-         }
+      let validPassword = letCheckValidPassword(password);
+
+      if (!validPassword) {
+         setValidPassword(false);
+         warnInput(passwordRef.current);
+      } else {
+         setValidPassword(true);
+         unwarnInput(passwordRef.current);
       }
    };
 

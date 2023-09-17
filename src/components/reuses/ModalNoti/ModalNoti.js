@@ -1,20 +1,17 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-function ModalDelete({ show, onClose, onSave, user }) {
+function ModalNoti({ title, content, show, onClose }) {
    return (
       <>
          <Modal show={show} onHide={onClose} size="sm">
             <Modal.Header closeButton>
-               <Modal.Title>DELETE THIS USER?</Modal.Title>
+               <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>{'Woohoo, are you sure to delete this user: ' + user}</Modal.Body>
+            <Modal.Body>{content}</Modal.Body>
             <Modal.Footer>
                <Button variant="secondary" onClick={onClose}>
                   Close
-               </Button>
-               <Button variant="danger" onClick={onSave}>
-                  Delete User
                </Button>
             </Modal.Footer>
          </Modal>
@@ -22,4 +19,4 @@ function ModalDelete({ show, onClose, onSave, user }) {
    );
 }
 
-export default ModalDelete;
+export default ModalNoti;
