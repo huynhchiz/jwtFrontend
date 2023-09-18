@@ -13,7 +13,6 @@ import {
 import ModalDelete from '../reuses/ModalDelete/ModalDelete';
 import ModalNoti from '../reuses/ModalNoti/ModalNoti';
 import ModalInfoUser from '../reuses/ModalInfoUser/ModalInfoUser';
-// import { registerNewUser as createNewUserService } from '../../services/userService';
 import checkValidEmail from '../../functions/checkValidEmail';
 import checkValidPassword from '../../functions/checkValidPassword';
 
@@ -25,11 +24,15 @@ function Users(props) {
    // eslint-disable-next-line no-unused-vars
    const [limit, setLimit] = useState(3); // limit là max số user trong 1 page
 
+   // selectUser set when click edit, show, delete buttons
    const [selectUser, setSelectUser] = useState({});
+
    const [showModalDelete, setShowModalDelete] = useState(false);
    const [showModalInfor, setShowModalInfor] = useState(false);
    const [typeInforModal, setTypeInforModal] = useState('show');
 
+   const [showPopUnvalid, setShowPopUnvalid] = useState(false);
+   const [unvalidMessage, setUnvalidMessage] = useState('');
    const [showPopDeleteSuccess, setShowPopDeleteSuccess] = useState(false);
    const [showPopAddSuccess, setShowPopAddSuccess] = useState(false);
    const [showPopUpdateSuccess, setShowPopUpdateSuccess] = useState(false);
@@ -71,13 +74,13 @@ function Users(props) {
       setCurrentPage(+e.selected + 1); //e.selected là page clicked
    };
 
-   // delete button => set 'selected user' => show modal confirm delete user
+   // delete button => set 'selected user'
    const handleDeleteUserBtn = (user) => {
       setShowModalDelete(true);
       setSelectUser(user);
    };
 
-   // delete user by 'selected user' => hide modal confirm => show success noti
+   // delete user by 'selected user'
    const handleSaveDelete = async (user) => {
       let data = await deleteUserService(user.id);
       if (data) {
@@ -88,7 +91,7 @@ function Users(props) {
       }
    };
 
-   // hide modal confirm delete
+   // close modal confirm delete
    const handleCloseModalDelete = () => {
       setShowModalDelete(false);
    };
@@ -138,23 +141,20 @@ function Users(props) {
 
                // existed data
             } else if (parseInt(resData.EC) === 1) {
+               setUnvalidMessage(resData.EM);
+               setShowPopUnvalid(true);
                console.log('existed data: ', resData.EM);
-
-               // existed email
-               if (resData.TYPE === 'email') {
-                  console.log(resData.EM);
-
-                  // existed phone
-               } else if (resData.TYPE === 'phone') {
-                  console.log(resData.EM);
-               }
 
                // register unsuccess
             } else {
+               setUnvalidMessage(resData.EM);
+               setShowPopUnvalid(true);
                console.log('fail: ', resData.EM);
             }
          }
       } else {
+         setUnvalidMessage('unrequired!');
+         setShowPopUnvalid(true);
          console.log('unrequired!');
       }
    };
@@ -189,34 +189,32 @@ function Users(props) {
 
                // existed data
             } else if (+resData.EC === 1) {
+               setUnvalidMessage(resData.EM);
+               setShowPopUnvalid(true);
                console.log('existed data: ', resData.EM);
-
-               // existed email by another user
-               if (resData.TYPE === 'email') {
-                  console.log(resData.EM);
-
-                  // existed phone by another user
-               } else if (resData.TYPE === 'phone') {
-                  console.log(resData.EM);
-               }
 
                // update unsuccess
             } else {
+               setUnvalidMessage(resData.EM);
+               setShowPopUnvalid(true);
                console.log('fail: ', resData.EM);
             }
          }
       } else {
+         setUnvalidMessage('unrequired!');
+         setShowPopUnvalid(true);
          console.log('unrequired!');
       }
    };
 
-   // hide modal infor user (add, edit, show)
+   // close modal infor user (add, edit, show)
    const handleCloseModalInfoUser = () => {
       setShowModalInfor(false);
    };
 
    // hide pop up noti after delete or create user success
    const handleClosePopup = () => {
+      setShowPopUnvalid(false);
       setShowPopDeleteSuccess(false);
       setShowPopAddSuccess(false);
       setShowPopUpdateSuccess(false);
@@ -235,7 +233,7 @@ function Users(props) {
                <div className="actions mb-2">
                   <button className="btn btn-secondary refresh-btn ms-2">Refresh</button>
                   <button
-                     className="btn btn-secondary add-btn ms-2"
+                     className="btn btn-primary add-btn ms-2"
                      onClick={() => {
                         handleAddUserBtn();
                      }}
@@ -368,6 +366,8 @@ function Users(props) {
             onSaveAdd={handleSaveAddNewUser}
             onSaveUpdate={handleSaveUpdateUser}
          />
+
+         <ModalNoti show={showPopUnvalid} onClose={handleClosePopup} title="Unvalid" content={unvalidMessage} />
 
          <ModalNoti
             show={showPopDeleteSuccess}
