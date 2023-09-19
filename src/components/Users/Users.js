@@ -44,10 +44,13 @@ function Users(props) {
    const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
    const [address, setAddress] = useState('');
+   const [genderId, setGenderId] = useState('');
+   const [usertypeId, setUsertypeId] = useState('');
 
    // fetch data mỗi lần currentPage thay đổi
    useEffect(() => {
       fetchUsers();
+
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [currentPage]);
 
@@ -106,7 +109,10 @@ function Users(props) {
       setPhone(user.phone);
       setUsername(user.username);
       setAddress(user.address);
+      setUsertypeId(user.Usertype !== null && user.Usertype.id !== null ? user.Usertype.id : '');
    };
+
+   console.log(selectUser);
 
    // add new user btn
    const handleAddUserBtn = () => {
@@ -137,7 +143,7 @@ function Users(props) {
                console.log('success: ', resData.EM);
                setShowModalInfor(false);
                setShowPopAddSuccess(true);
-               await fetchUsers();
+               fetchUsers();
 
                // existed data
             } else if (parseInt(resData.EC) === 1) {
@@ -169,6 +175,7 @@ function Users(props) {
       setPhone(user.phone);
       setUsername(user.username);
       setAddress(user.address);
+      setUsertypeId(user.Usertype !== null && user.Usertype.id !== null ? user.Usertype.id : '');
    };
 
    const handleSaveUpdateUser = async () => {
@@ -185,7 +192,7 @@ function Users(props) {
                console.log('success: ', resData.EM);
                setShowModalInfor(false);
                setShowPopUpdateSuccess(true);
-               await fetchUsers();
+               fetchUsers();
 
                // existed data
             } else if (+resData.EC === 1) {
@@ -336,15 +343,20 @@ function Users(props) {
             user={selectUser.username}
          />
          <ModalInfoUser
+            // Modal attributes
             show={showModalInfor}
             type={typeInforModal}
             onClose={handleCloseModalInfoUser}
+            // values
             email={email}
             phone={phone}
             username={username}
             password={password}
             confirmpassword={confirmPassword}
             address={address}
+            genderId={genderId}
+            usertypeId={usertypeId}
+            // onchanges
             onChangeEmail={(e) => {
                handleChangeValueUser(e, setEmail);
             }}
@@ -363,6 +375,13 @@ function Users(props) {
             onChangeAddress={(e) => {
                handleChangeValueUser(e, setAddress);
             }}
+            onChangeGender={(e) => {
+               handleChangeValueUser(e, setGenderId);
+            }}
+            onChangeUserType={(e) => {
+               handleChangeValueUser(e, setUsertypeId);
+            }}
+            // onSaves
             onSaveAdd={handleSaveAddNewUser}
             onSaveUpdate={handleSaveUpdateUser}
          />

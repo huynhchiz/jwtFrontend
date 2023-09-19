@@ -1,6 +1,9 @@
-import './ModalInfoUser.scss';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+
+import './ModalInfoUser.scss';
+import { fetchAllUsertype } from '../../../services/usertypeService';
 
 function ModalInfoUser({
    show,
@@ -14,16 +17,37 @@ function ModalInfoUser({
    password,
    confirmpassword,
    address,
+   gender,
+   usertypeId,
    onChangeEmail,
    onChangePhone,
    onChangeUsername,
    onChangePassword,
    onChangeConfirmPassword,
    onChangeAddress,
+   onChangeGender,
+   onChangeUserType,
 }) {
    let isShowType = type === 'show';
    let isAddType = type === 'add';
    let isEditType = type === 'edit';
+
+   const [listTypes, setListTypes] = useState([]);
+   // const [usertypeId, setUsertypeId] = useState();
+
+   useEffect(() => {
+      getApiUsertypes();
+   }, []);
+
+   const getApiUsertypes = async () => {
+      let res = await fetchAllUsertype();
+
+      setListTypes(res.data.DT);
+   };
+
+   // const handleChangeUsertype = (e) => {
+   //    setUsertypeId(e.target.value);
+   // };
 
    return (
       <>
@@ -117,11 +141,40 @@ function ModalInfoUser({
                               onChange={onChangeAddress}
                            />
                         </div>
-                        {/* gender */}
-                        <div className="input-wrapper">
-                           <label>Gender:</label>
+                        <div className="select-wrapper">
+                           {/* gender */}
+                           <div className="select-wrapper-item">
+                              <label>Gender:</label>
+                              <select
+                                 disabled={isShowType}
+                                 className="select-form"
+                                 // value={gender ?? ''}
+                                 // onChange={onChangeGender}
+                              >
+                                 <option defaultValue>Male</option>
+                                 <option>Female</option>
+                                 <option>Other</option>
+                              </select>
+                           </div>
+
+                           {/* type user */}
+                           <div className="select-wrapper-item">
+                              <label>Type</label>
+                              <select
+                                 className="select-form"
+                                 disabled={isShowType}
+                                 value={usertypeId}
+                                 onChange={onChangeUserType}
+                              >
+                                 {listTypes.length > 0 &&
+                                    listTypes.map((item, idx) => (
+                                       <option value={item.id} key={`type-${idx}`}>
+                                          {item.description}
+                                       </option>
+                                    ))}
+                              </select>
+                           </div>
                         </div>
-                        {/* type user */}
                      </>
                   )}
                </div>

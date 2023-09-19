@@ -20,4 +20,29 @@
       width: 100%;
       flex: 1;
    }
+
+   .select-wrapper {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+   }
+
+   .select-wrapper-item {
+      + .select-wrapper-item {
+         margin-left: 48px;
+
+         // screen < 500
+         @media (max-width: 499px) {
+            margin-left: 12px;
+         }
+      }
+
+      label {
+         margin-right: 16px;
+      }
+   }
+
+   .select-form {
+      width: 100%;
+   }
 }
