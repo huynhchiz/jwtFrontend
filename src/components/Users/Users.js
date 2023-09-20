@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import ReactPaginate from 'react-paginate';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './Users.scss';
 import {
@@ -15,14 +16,16 @@ import ModalNoti from '../reuses/ModalNoti/ModalNoti';
 import ModalInfoUser from '../reuses/ModalInfoUser/ModalInfoUser';
 import checkValidEmail from '../../functions/checkValidEmail';
 import checkValidPassword from '../../functions/checkValidPassword';
+import { faInfo, faPenFancy, faPlus, faRotate } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
 function Users(props) {
    const [listUsers, setListUsers] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
    const [totalPage, setTotalPage] = useState(0);
 
-   // eslint-disable-next-line no-unused-vars
-   const [limit, setLimit] = useState(3); // limit là max số user trong 1 page
+   // limit là max số user trong 1 page
+   const limit = 5;
 
    // selectUser set when click edit, show, delete buttons
    const [selectUser, setSelectUser] = useState({});
@@ -110,9 +113,8 @@ function Users(props) {
       setUsername(user.username);
       setAddress(user.address);
       setUsertypeId(user.Usertype !== null && user.Usertype.id !== null ? user.Usertype.id : '');
+      setGenderId(user.Gender !== null && user.Gender.id !== null ? user.Gender.id : '');
    };
-
-   console.log(selectUser);
 
    // add new user btn
    const handleAddUserBtn = () => {
@@ -126,6 +128,8 @@ function Users(props) {
       setAddress('');
       setPassword('');
       setConfirmPassword('');
+      setGenderId('');
+      setUsertypeId('');
    };
 
    const handleSaveAddNewUser = async () => {
@@ -135,7 +139,7 @@ function Users(props) {
 
       if (isAllRequired) {
          if (validEmail && validPassword && confirmPassword === password) {
-            let res = await createUserService(email, phone, username, password);
+            let res = await createUserService(email, phone, username, password, address, genderId, usertypeId);
             let resData = res.data;
 
             // register success
@@ -176,6 +180,7 @@ function Users(props) {
       setUsername(user.username);
       setAddress(user.address);
       setUsertypeId(user.Usertype !== null && user.Usertype.id !== null ? user.Usertype.id : '');
+      setGenderId(user.Gender !== null && user.Gender.id !== null ? user.Gender.id : '');
    };
 
    const handleSaveUpdateUser = async () => {
@@ -184,7 +189,7 @@ function Users(props) {
 
       if (isAllRequired) {
          if (validEmail) {
-            let res = await updateUserService(email, phone, username, address, selectUser.id);
+            let res = await updateUserService(email, phone, username, address, selectUser.id, genderId, usertypeId);
             let resData = res.data;
 
             // update success
@@ -238,19 +243,23 @@ function Users(props) {
             <div className="users-header">
                <h4 className="title">TABLE USERS</h4>
                <div className="actions mb-2">
-                  <button className="btn btn-secondary refresh-btn ms-2">Refresh</button>
+                  <button className="btn btn-success refresh-btn ms-2" onClick={fetchUsers}>
+                     <FontAwesomeIcon className="icon-inside-btn" icon={faRotate} />
+                     Refresh
+                  </button>
                   <button
                      className="btn btn-primary add-btn ms-2"
                      onClick={() => {
                         handleAddUserBtn();
                      }}
                   >
-                     Add new user
+                     <FontAwesomeIcon className="icon-inside-btn" icon={faPlus} />
+                     Add user
                   </button>
                </div>
             </div>
 
-            <div className="user-body">
+            <div className="user-body ">
                <table className="table table-bordered table-dark table-hover">
                   <thead>
                      <tr>
@@ -260,6 +269,7 @@ function Users(props) {
                         <th scope="col">Name</th>
                         <th scope="col">Phone</th>
                         <th scope="col">Type</th>
+                        <th scope="col">Gender</th>
                         <th scope="col">Actions</th>
                      </tr>
                   </thead>
@@ -274,30 +284,31 @@ function Users(props) {
                                  <td>{item.username ? item.username : ''}</td>
                                  <td>{item.phone ? item.phone : ''}</td>
                                  <td>{item.Usertype ? item.Usertype.description : ''}</td>
-                                 <td>
+                                 <td>{item.Gender ? item.Gender.name : ''}</td>
+                                 <td className="user-actions">
                                     <button
-                                       className="btn btn-outline-success"
+                                       className="user-btn info-btn"
                                        onClick={() => {
                                           handleShowInforBtn(item);
                                        }}
                                     >
-                                       Show
+                                       <FontAwesomeIcon icon={faInfo} />
                                     </button>
                                     <button
-                                       className="btn btn-outline-warning mx-2"
+                                       className="user-btn edit-btn"
                                        onClick={() => {
                                           handleEditUserBtn(item);
                                        }}
                                     >
-                                       Edit
+                                       <FontAwesomeIcon icon={faPenFancy} />
                                     </button>
                                     <button
-                                       className="btn btn-outline-danger"
+                                       className="user-btn delete-btn"
                                        onClick={() => {
                                           handleDeleteUserBtn(item);
                                        }}
                                     >
-                                       Delete
+                                       <FontAwesomeIcon icon={faTrashCan} />
                                     </button>
                                  </td>
                               </tr>
@@ -315,8 +326,8 @@ function Users(props) {
                      <ReactPaginate
                         nextLabel="next >"
                         onPageChange={handlePageClick}
-                        pageRangeDisplayed={1}
-                        marginPagesDisplayed={1}
+                        pageRangeDisplayed={4}
+                        marginPagesDisplayed={4}
                         pageCount={totalPage}
                         previousLabel="< previous"
                         pageClassName="page-item"

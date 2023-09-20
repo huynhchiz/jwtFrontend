@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 function ModalNoti({ title, content, show, onClose }) {
    return (
       <>
-         <Modal show={show} onHide={onClose} size="sm">
+         <Modal show={show} onHide={onClose} size="sm" animation={false}>
             <Modal.Header closeButton>
                <Modal.Title>{title}</Modal.Title>
             </Modal.Header>

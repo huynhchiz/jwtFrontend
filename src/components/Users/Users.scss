@@ -1,17 +1,8 @@
 .user-container {
-   .users-header {
-   }
+   padding: 20px;
 
-   .title {
-   }
-
-   .actions {
-   }
-
-   .refresh-btn {
-   }
-
-   .add-btn {
+   .icon-inside-btn {
+      margin-right: 8px;
    }
 
    .user-footer {
@@ -20,7 +11,29 @@
       align-items: center;
    }
 
-   .popup {
+   .user-actions {
+   }
+
+   .user-btn {
+      width: 28px;
+      font-size: 18px;
+      margin-right: 8px;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      color: #fff;
+   }
+
+   .info-btn {
+      color: rgb(0, 153, 255);
+   }
+
+   .edit-btn {
+      color: yellow;
+   }
+
+   .delete-btn {
+      color: red;
    }
 }
 

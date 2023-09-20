@@ -24,25 +24,25 @@
    .select-wrapper {
       margin-top: 16px;
       display: flex;
+      justify-content: space-between;
       align-items: center;
    }
 
    .select-wrapper-item {
-      + .select-wrapper-item {
-         margin-left: 48px;
+      width: 50%;
+      display: flex;
 
-         // screen < 500
-         @media (max-width: 499px) {
-            margin-left: 12px;
-         }
+      + .select-wrapper-item {
+         margin-left: 16px;
+         justify-content: end;
       }
 
       label {
          margin-right: 16px;
       }
-   }
 
-   .select-form {
-      width: 100%;
+      .select-form {
+         width: 70%;
+      }
    }
 }

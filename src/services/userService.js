@@ -26,22 +26,27 @@ const deleteUser = (userId) => {
    return axios.delete(`http://localhost:1997/api/ver1/user/delete`, { data: { id: userId } });
 };
 
-const createUser = (email, phone, username, password) => {
+const createUser = (email, phone, username, password, address, genderId, usertypeId) => {
    return axios.post('http://localhost:1997/api/ver1/user/create', {
       email,
       phone,
       username,
       password,
+      address,
+      genderId,
+      usertypeId,
    });
 };
 
-const updateUser = (newEmail, newPhone, newUsername, newAddress, currentId) => {
+const updateUser = (newEmail, newPhone, newUsername, newAddress, currentId, newGenderId, newUsertypeId) => {
    return axios.put('http://localhost:1997/api/ver1/user/update', {
       newEmail,
       newPhone,
       newUsername,
       newAddress,
       currentId,
+      newGenderId,
+      newUsertypeId,
    });
 };
 

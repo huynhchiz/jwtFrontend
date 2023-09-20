@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import './ModalInfoUser.scss';
 import { fetchAllUsertype } from '../../../services/usertypeService';
+import { fetchAllGender } from '../../../services/genderService';
 
 function ModalInfoUser({
    show,
@@ -17,7 +18,7 @@ function ModalInfoUser({
    password,
    confirmpassword,
    address,
-   gender,
+   genderId,
    usertypeId,
    onChangeEmail,
    onChangePhone,
@@ -28,26 +29,42 @@ function ModalInfoUser({
    onChangeGender,
    onChangeUserType,
 }) {
+   //
    let isShowType = type === 'show';
    let isAddType = type === 'add';
    let isEditType = type === 'edit';
 
    const [listTypes, setListTypes] = useState([]);
-   // const [usertypeId, setUsertypeId] = useState();
+   const [listGenders, setListGenders] = useState([]);
+
+   const noneSelectOption = [
+      {
+         id: 0,
+         name: 'Select',
+         description: 'Select',
+      },
+   ];
 
    useEffect(() => {
       getApiUsertypes();
+      getApiGenders();
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
    const getApiUsertypes = async () => {
       let res = await fetchAllUsertype();
-
-      setListTypes(res.data.DT);
+      if (res && res.data && +res.data.EC === 0) {
+         setListTypes(noneSelectOption.concat(res.data.DT));
+      }
    };
 
-   // const handleChangeUsertype = (e) => {
-   //    setUsertypeId(e.target.value);
-   // };
+   const getApiGenders = async () => {
+      let res = await fetchAllGender();
+      if (res && res.data && +res.data.EC === 0) {
+         setListGenders(noneSelectOption.concat(res.data.DT));
+      }
+   };
 
    return (
       <>
@@ -126,57 +143,58 @@ function ModalInfoUser({
                      </>
                   )}
 
-                  {!isAddType && (
-                     <>
-                        {' '}
-                        {/* address */}
-                        <div className="input-wrapper">
-                           <label>Address:</label>
-                           <input
-                              disabled={isShowType}
-                              className="input-form"
-                              type="text"
-                              name="address"
-                              value={address ?? ''}
-                              onChange={onChangeAddress}
-                           />
-                        </div>
-                        <div className="select-wrapper">
-                           {/* gender */}
-                           <div className="select-wrapper-item">
-                              <label>Gender:</label>
-                              <select
-                                 disabled={isShowType}
-                                 className="select-form"
-                                 // value={gender ?? ''}
-                                 // onChange={onChangeGender}
-                              >
-                                 <option defaultValue>Male</option>
-                                 <option>Female</option>
-                                 <option>Other</option>
-                              </select>
-                           </div>
+                  {/* address */}
+                  <div className="input-wrapper">
+                     <label>Address:</label>
+                     <input
+                        disabled={isShowType}
+                        className="input-form"
+                        type="text"
+                        name="address"
+                        value={address ?? ''}
+                        onChange={onChangeAddress}
+                     />
+                  </div>
 
-                           {/* type user */}
-                           <div className="select-wrapper-item">
-                              <label>Type</label>
-                              <select
-                                 className="select-form"
-                                 disabled={isShowType}
-                                 value={usertypeId}
-                                 onChange={onChangeUserType}
-                              >
-                                 {listTypes.length > 0 &&
-                                    listTypes.map((item, idx) => (
-                                       <option value={item.id} key={`type-${idx}`}>
-                                          {item.description}
-                                       </option>
-                                    ))}
-                              </select>
-                           </div>
-                        </div>
-                     </>
-                  )}
+                  <div className="select-wrapper">
+                     {/* gender */}
+                     <div className="select-wrapper-item">
+                        <label>Gender:</label>
+                        <select
+                           disabled={isShowType}
+                           className="select-form"
+                           value={genderId ? genderId : 0}
+                           onChange={onChangeGender}
+                        >
+                           {listGenders.length > 0 &&
+                              listGenders.map((item, idx) => {
+                                 return (
+                                    <option hidden={item.id === 0} key={`gender-${idx}`} value={item.id}>
+                                       {item.name}
+                                    </option>
+                                 );
+                              })}
+                        </select>
+                     </div>
+
+                     {/* type user */}
+                     <div className="select-wrapper-item">
+                        <label>Type</label>
+                        <select
+                           className="select-form"
+                           disabled={isShowType}
+                           value={usertypeId ? usertypeId : 0}
+                           onChange={onChangeUserType}
+                        >
+                           {listTypes.length > 0 &&
+                              listTypes.map((item, idx) => (
+                                 <option hidden={item.id === 0} value={item.id} key={`type-${idx}`}>
+                                    {item.description}
+                                 </option>
+                              ))}
+                        </select>
+                     </div>
+                  </div>
                </div>
             </Modal.Body>
             <Modal.Footer>
