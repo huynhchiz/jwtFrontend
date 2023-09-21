@@ -157,25 +157,24 @@ function RegisterContentRight() {
          if (isFillAll && validEmail && validPassword && validConfirmPassword) {
             // post API
             let res = await registerNewUser(email, phone, username, password);
-            let resData = res.data;
 
-            if (parseInt(resData.EC) === 0) {
+            if (parseInt(res.EC) === 0) {
                // register success
-               console.log('success: ', resData.EM);
+               console.log('success: ', res.EM);
                clearInputValues();
                setRegisterSuccess(true);
-            } else if (parseInt(resData.EC) === 1) {
+            } else if (parseInt(res.EC) === 1) {
                // existed data
-               console.log('existed data: ', resData.EM);
-               if (resData.TYPE === 'email') {
+               console.log('existed data: ', res.EM);
+               if (res.TYPE === 'email') {
                   // existed email
-                  setExistEmail({ isExist: true, message: resData.EM });
-               } else if (resData.TYPE === 'phone') {
+                  setExistEmail({ isExist: true, message: res.EM });
+               } else if (res.TYPE === 'phone') {
                   // existed phone
-                  setExistPhone({ isExist: true, message: resData.EM });
+                  setExistPhone({ isExist: true, message: res.EM });
                }
             } else {
-               console.log('fail: ', resData.EM);
+               console.log('fail: ', res.EM);
             }
          }
       } else {

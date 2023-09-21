@@ -82,11 +82,10 @@ function LoginContentRight() {
 
       //
       let res = await loginUser(loginValue, password);
-      let resData = res.data;
 
       // success login
-      if (resData && +resData.EC === 0) {
-         console.log('success: ', resData.EM);
+      if (res && +res.EC === 0) {
+         console.log('success: ', res.EM);
 
          // set user login session
          let data = {
@@ -105,13 +104,13 @@ function LoginContentRight() {
       }
 
       // fail login
-      if (resData && +resData.EC !== 0) {
+      if (res && +res.EC !== 0) {
          setIncorrectLogin({
             isIncorrect: true,
-            message: resData.EM,
+            message: res.EM,
          });
 
-         console.log('fail: ', resData.EM);
+         console.log('fail: ', res.EM);
          return;
       }
    };

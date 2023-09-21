@@ -54,15 +54,15 @@ function ModalInfoUser({
 
    const getApiUsertypes = async () => {
       let res = await fetchAllUsertype();
-      if (res && res.data && +res.data.EC === 0) {
-         setListTypes(noneSelectOption.concat(res.data.DT));
+      if (res && +res.EC === 0) {
+         setListTypes(noneSelectOption.concat(res.DT));
       }
    };
 
    const getApiGenders = async () => {
       let res = await fetchAllGender();
-      if (res && res.data && +res.data.EC === 0) {
-         setListGenders(noneSelectOption.concat(res.data.DT));
+      if (res && +res.EC === 0) {
+         setListGenders(noneSelectOption.concat(res.DT));
       }
    };
 

@@ -60,9 +60,9 @@ function Users(props) {
    const fetchUsers = async () => {
       let res = await fetchUserService(currentPage, limit);
 
-      if (res && res.data && +res.data.EC === 0) {
-         setListUsers(res.data.DT.usersInOnePage);
-         setTotalPage(res.data.DT.totalPage);
+      if (res && +res.EC === 0) {
+         setListUsers(res.DT.usersInOnePage);
+         setTotalPage(res.DT.totalPage);
       }
    };
 
@@ -140,26 +140,25 @@ function Users(props) {
       if (isAllRequired) {
          if (validEmail && validPassword && confirmPassword === password) {
             let res = await createUserService(email, phone, username, password, address, genderId, usertypeId);
-            let resData = res.data;
 
             // register success
-            if (parseInt(resData.EC) === 0) {
-               console.log('success: ', resData.EM);
+            if (parseInt(res.EC) === 0) {
+               console.log('success: ', res.EM);
                setShowModalInfor(false);
                setShowPopAddSuccess(true);
                fetchUsers();
 
                // existed data
-            } else if (parseInt(resData.EC) === 1) {
-               setUnvalidMessage(resData.EM);
+            } else if (parseInt(res.EC) === 1) {
+               setUnvalidMessage(res.EM);
                setShowPopUnvalid(true);
-               console.log('existed data: ', resData.EM);
+               console.log('existed data: ', res.EM);
 
                // register unsuccess
             } else {
-               setUnvalidMessage(resData.EM);
+               setUnvalidMessage(res.EM);
                setShowPopUnvalid(true);
-               console.log('fail: ', resData.EM);
+               console.log('fail: ', res.EM);
             }
          }
       } else {
@@ -190,26 +189,25 @@ function Users(props) {
       if (isAllRequired) {
          if (validEmail) {
             let res = await updateUserService(email, phone, username, address, selectUser.id, genderId, usertypeId);
-            let resData = res.data;
 
             // update success
-            if (+resData.EC === 0) {
-               console.log('success: ', resData.EM);
+            if (+res.EC === 0) {
+               console.log('success: ', res.EM);
                setShowModalInfor(false);
                setShowPopUpdateSuccess(true);
                fetchUsers();
 
                // existed data
-            } else if (+resData.EC === 1) {
-               setUnvalidMessage(resData.EM);
+            } else if (+res.EC === 1) {
+               setUnvalidMessage(res.EM);
                setShowPopUnvalid(true);
-               console.log('existed data: ', resData.EM);
+               console.log('existed data: ', res.EM);
 
                // update unsuccess
             } else {
-               setUnvalidMessage(resData.EM);
+               setUnvalidMessage(res.EM);
                setShowPopUnvalid(true);
-               console.log('fail: ', resData.EM);
+               console.log('fail: ', res.EM);
             }
          }
       } else {

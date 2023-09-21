@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from '../setup/axios';
 
 // register | login Users
 const registerNewUser = (email, phone, username, password) => {
-   return axios.post('http://localhost:1997/api/ver1/register', {
+   return axios.post('/api/ver1/register', {
       email,
       phone,
       username,
@@ -11,7 +11,7 @@ const registerNewUser = (email, phone, username, password) => {
 };
 
 const loginUser = (loginValue, password) => {
-   return axios.post('http://localhost:1997/api/ver1/login', {
+   return axios.post('/api/ver1/login', {
       loginValue,
       password,
    });
@@ -19,15 +19,15 @@ const loginUser = (loginValue, password) => {
 
 // CRUD Users
 const fetchAllUser = (page, limit) => {
-   return axios.get(`http://localhost:1997/api/ver1/user/read?page=${page}&limit=${limit}`);
+   return axios.get(`/api/ver1/user/read?page=${page}&limit=${limit}`);
 };
 
 const deleteUser = (userId) => {
-   return axios.delete(`http://localhost:1997/api/ver1/user/delete`, { data: { id: userId } });
+   return axios.delete(`/api/ver1/user/delete`, { data: { id: userId } });
 };
 
 const createUser = (email, phone, username, password, address, genderId, usertypeId) => {
-   return axios.post('http://localhost:1997/api/ver1/user/create', {
+   return axios.post('/api/ver1/user/create', {
       email,
       phone,
       username,
@@ -39,7 +39,7 @@ const createUser = (email, phone, username, password, address, genderId, usertyp
 };
 
 const updateUser = (newEmail, newPhone, newUsername, newAddress, currentId, newGenderId, newUsertypeId) => {
-   return axios.put('http://localhost:1997/api/ver1/user/update', {
+   return axios.put('/api/ver1/user/update', {
       newEmail,
       newPhone,
       newUsername,
