@@ -33,4 +33,7 @@ instance.interceptors.response.use(
    },
 );
 
+// allow set jwt on cookie (react axios)
+instance.defaults.withCredentials = true;
+
 export default instance;

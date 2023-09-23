@@ -133,11 +133,11 @@ function Users(props) {
    };
 
    const handleSaveAddNewUser = async () => {
-      let isAllRequired = email !== '' && phone !== '' && username !== '';
+      let isAllFilledIn = email !== '' && phone !== '' && username !== '';
       let validEmail = checkValidEmail(email);
       let validPassword = checkValidPassword(password);
 
-      if (isAllRequired) {
+      if (isAllFilledIn) {
          if (validEmail && validPassword && confirmPassword === password) {
             let res = await createUserService(email, phone, username, password, address, genderId, usertypeId);
 
@@ -160,11 +160,19 @@ function Users(props) {
                setShowPopUnvalid(true);
                console.log('fail: ', res.EM);
             }
+
+            // unvalid
+         } else {
+            setUnvalidMessage('unvalid');
+            setShowPopUnvalid(true);
+            console.log('unvalid');
          }
+
+         // not filled in yet
       } else {
-         setUnvalidMessage('unrequired!');
+         setUnvalidMessage('not filled in yet!');
          setShowPopUnvalid(true);
-         console.log('unrequired!');
+         console.log('not filled in yet!');
       }
    };
 
