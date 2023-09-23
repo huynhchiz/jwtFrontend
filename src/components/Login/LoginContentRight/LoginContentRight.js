@@ -99,7 +99,7 @@ function LoginContentRight() {
          navigate('/users');
 
          // fix tạm lỗi ko tự re-render component App khi chuyển hướng sang /users để hiện Nav
-         // window.location.reload();
+         window.location.reload();
          // học thêm redux để quản lý props phức tạp
       }
 
