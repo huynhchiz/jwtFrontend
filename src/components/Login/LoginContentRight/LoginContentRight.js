@@ -1,10 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useRef, useEffect } from 'react';
-
-import { useContext } from 'react';
-import { UserContext } from '../../../contexts/UserProvider';
+import { useState, useRef, useContext } from 'react';
 
 import './LoginContentRight.scss';
+import { UserContext } from '../../../contexts/UserProvider';
 import { loginUser } from '../../../services/userService';
 
 function LoginContentRight() {
@@ -20,17 +18,6 @@ function LoginContentRight() {
    const passwordRef = useRef();
 
    const userContext = useContext(UserContext);
-
-   // neu dang co session login thi ko cho vao /login nua
-   useEffect(() => {
-      let session = JSON.parse(sessionStorage.getItem('loginUser'));
-
-      if (session) {
-         navigate('/');
-         window.location.reload();
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
 
    // hook de dieu huong trang cua react-router-dom
    const navigate = useNavigate();
@@ -110,14 +97,9 @@ function LoginContentRight() {
          // set user context
          userContext.setLogin(data);
 
-         // sessionStorage : khi close tab se xoa khoi storage (khac voi localStorage)
-         sessionStorage.setItem('loginUser', JSON.stringify(data));
-
          // chuyen huong page
          navigate('/users');
 
-         // fix tạm lỗi ko tự re-render component App khi chuyển hướng sang /users để hiện Nav
-         // window.location.reload();
          // học thêm redux để quản lý props phức tạp
       }
 

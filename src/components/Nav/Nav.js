@@ -1,32 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserProvider';
-
 import './Nav.scss';
 
 const Nav = (props) => {
    // get current location (url)
    const location = useLocation();
-   const [isShow, setIsShow] = useState(true);
 
    const userContext = useContext(UserContext);
    let currentUsername = userContext.data.account.username;
    let currentEmail = userContext.data.account.email;
 
-   useEffect(() => {
-      let session = JSON.parse(sessionStorage.getItem('loginUser'));
-
-      if (session && location.pathname !== '/login') {
-         setIsShow(true);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
-
-   return (
-      <>
-         {isShow && (
+   if (
+      location.pathname === '/' ||
+      (userContext.data && userContext.data.isAuthenticated === true && location.pathname !== '/login')
+   ) {
+      return (
+         <>
             <div className="topnav">
                <div className="menu-div">
                   {/* dùng NavLink để tự thêm class 'active' khi chọn vào 1 NavLink */}
@@ -42,9 +33,11 @@ const Nav = (props) => {
                   <p>{currentEmail}</p>
                </div>
             </div>
-         )}
-      </>
-   );
+         </>
+      );
+   } else {
+      return <></>;
+   }
 };
 
 export default Nav;

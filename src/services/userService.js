@@ -50,4 +50,8 @@ const updateUser = (newEmail, newPhone, newUsername, newAddress, currentId, newG
    });
 };
 
-export { registerNewUser, loginUser, fetchAllUser, deleteUser, createUser, updateUser };
+const getUserAccount = () => {
+   return axios.get(`/api/ver1/account`);
+};
+
+export { registerNewUser, loginUser, fetchAllUser, deleteUser, createUser, updateUser, getUserAccount };
