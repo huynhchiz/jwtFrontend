@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 
+import { useContext } from 'react';
+import { UserContext } from '../../../contexts/UserProvider';
+
 import './LoginContentRight.scss';
 import { loginUser } from '../../../services/userService';
 
@@ -15,6 +18,8 @@ function LoginContentRight() {
 
    const loginValueRef = useRef();
    const passwordRef = useRef();
+
+   const userContext = useContext(UserContext);
 
    // neu dang co session login thi ko cho vao /login nua
    useEffect(() => {
@@ -87,11 +92,24 @@ function LoginContentRight() {
       if (res && +res.EC === 0) {
          console.log('success: ', res.EM);
 
-         // set user login session
+         // set user login session / context
+         let usertypeWithRoles = res.DT.usertypeWithRoles;
+         let email = res.DT.email;
+         let username = res.DT.username;
+         let token = res.DT.access_token;
+
          let data = {
             isAuthenticated: true,
-            token: 'fake token',
+            token,
+            account: {
+               usertypeWithRoles,
+               email,
+               username,
+            },
          };
+         // set user context
+         userContext.setLogin(data);
+
          // sessionStorage : khi close tab se xoa khoi storage (khac voi localStorage)
          sessionStorage.setItem('loginUser', JSON.stringify(data));
 
@@ -99,7 +117,7 @@ function LoginContentRight() {
          navigate('/users');
 
          // fix tạm lỗi ko tự re-render component App khi chuyển hướng sang /users để hiện Nav
-         window.location.reload();
+         // window.location.reload();
          // học thêm redux để quản lý props phức tạp
       }
 

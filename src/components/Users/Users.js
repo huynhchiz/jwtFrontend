@@ -94,6 +94,8 @@ function Users(props) {
          await fetchUsers();
          setShowModalDelete(false);
          setShowPopDeleteSuccess(true);
+      } else {
+         console.log('no');
       }
    };
 

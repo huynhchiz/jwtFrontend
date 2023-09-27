@@ -16,7 +16,7 @@ instance.interceptors.request.use(
    function (error) {
       // Do something with request error
       // return Promise.reject(error);
-      return error.response.data;
+      return error.request.data;
    },
 );
 
@@ -32,7 +32,7 @@ instance.interceptors.response.use(
       // Do something with response error
 
       // get status error from server
-      const status = (error && error.response && error.response.status) || 500;
+      const status = (error && error.AxiosError.response && error.AxiosError.response.status) || 500;
 
       switch (status) {
          // authentication (token related issues)
@@ -77,7 +77,10 @@ instance.interceptors.response.use(
          // generic api error (server related) unexpected
          default: {
             // return Promise.reject(error);
-            return error.response.data;
+            console.log('error: ', error);
+            console.log('error res: ', error.response);
+            console.log('error.res.data: ', error.response.data);
+            return error;
          }
       }
    },
