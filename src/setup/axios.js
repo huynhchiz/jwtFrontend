@@ -39,39 +39,39 @@ instance.interceptors.response.use(
          case 401: {
             console.log('Unauthorizaed user...');
             // window.location.href = '/login';
-            return Promise.reject(error);
-            // return error.response.data;
+            // return Promise.reject(error);
+            return error.response.data;
          }
 
          // forbidden (permission related issues)
          case 403: {
             console.log(`You don't have permission to access...`);
-            return Promise.reject(error);
-            // return error.response.data;
+            // return Promise.reject(error);
+            return error.response.data;
          }
 
          // bad request
          case 400: {
-            return Promise.reject(error);
-            // return error.response.data;
+            // return Promise.reject(error);
+            return error.response.data;
          }
 
          // not found
          case 404: {
-            return Promise.reject(error);
-            // return error.response.data;
+            // return Promise.reject(error);
+            return error.response.data;
          }
 
          // conflict
          case 409: {
-            return Promise.reject(error);
-            // return error.response.data;
+            // return Promise.reject(error);
+            return error.response.data;
          }
 
          // unprocessable
          case 422: {
-            return Promise.reject(error);
-            // return error.response.data;
+            // return Promise.reject(error);
+            return error.response.data;
          }
 
          // generic api error (server related) unexpected
@@ -79,8 +79,8 @@ instance.interceptors.response.use(
             // console.log('error: ', error);
             // console.log('error res: ', error.response);
             // console.log('error.res.data: ', error.response.data);
-            return Promise.reject(error);
-            // return error;
+            // return Promise.reject(error);
+            return error;
          }
       }
    },

@@ -5,9 +5,17 @@ import { getUserAccount as getUserAccountService } from '../services/userService
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-   useEffect(() => {
-      fetchUserAccount();
-   }, []);
+   const defaultData = {
+      isLoading: true,
+      isAuthenticated: false,
+      token: '',
+      account: {
+         email: '',
+         username: '',
+      },
+   };
+
+   const [data, setData] = useState(defaultData);
 
    const fetchUserAccount = async () => {
       let res = await getUserAccountService();
@@ -19,6 +27,7 @@ const UserProvider = ({ children }) => {
          let token = res.DT.access_token;
 
          let data = {
+            isLoading: false,
             isAuthenticated: true,
             token,
             account: {
@@ -28,32 +37,29 @@ const UserProvider = ({ children }) => {
             },
          };
          // set user context
-         setData(data);
+         setTimeout(() => {
+            setData(data);
+            console.log(data);
+         }, 1 * 1000);
+      } else {
+         console.log(123123);
+         setData({ ...defaultData, isLoading: false });
       }
    };
 
-   const [data, setData] = useState({
-      isAuthenticated: false,
-      token: '',
-      account: {
-         email: '',
-         username: '',
-      },
-   });
+   useEffect(() => {
+      let currentPath = window.location.pathname;
+      if (currentPath !== '/' || currentPath !== '/login' || currentPath !== '/register') {
+         fetchUserAccount();
+      }
+   }, []);
 
    const setLogin = (userData) => {
-      setData(userData);
+      setData({ ...userData, isLoading: false });
    };
 
    const setLogout = () => {
-      setData({
-         isAuthenticated: false,
-         token: '',
-         account: {
-            email: '',
-            username: '',
-         },
-      });
+      setData(defaultData);
    };
 
    return <UserContext.Provider value={{ data, setLogin, setLogout }}>{children}</UserContext.Provider>;
