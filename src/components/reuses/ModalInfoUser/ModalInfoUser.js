@@ -106,7 +106,7 @@ function ModalInfoUser({
 
                   {/* user name */}
                   <div className="input-wrapper">
-                     <label>Your name:</label>
+                     <label>Name:</label>
                      <input
                         disabled={isShowType}
                         className="input-form"

@@ -5,13 +5,19 @@
       margin-right: 8px;
    }
 
+   .user-body {
+      .hide-able-col {
+         // screen < 650px
+         @media (max-width: 650px) {
+            display: none;
+         }
+      }
+   }
+
    .user-footer {
       display: flex;
       justify-content: center;
       align-items: center;
-   }
-
-   .user-actions {
    }
 
    .user-btn {

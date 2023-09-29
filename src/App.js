@@ -4,7 +4,7 @@ import { ThreeCircles } from 'react-loader-spinner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './App.scss';
-import Nav from './components/Nav/Nav';
+import NavHeader from './components/NavHeader/NavHeader';
 import AppRoutes from './routes/AppRoutes';
 import { UserContext } from './contexts/UserProvider';
 
@@ -43,7 +43,7 @@ const App = () => {
             ) : (
                <>
                   <div className="app-header">
-                     <Nav />
+                     <NavHeader />
                   </div>
 
                   <div className="app-container">

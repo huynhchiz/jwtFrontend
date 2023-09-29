@@ -247,7 +247,7 @@ function Users(props) {
 
    return (
       <>
-         <div className="user-container">
+         <div className="user-container container">
             <div className="users-header">
                <h4 className="title">TABLE USERS</h4>
                <div className="actions mb-2">
@@ -267,17 +267,27 @@ function Users(props) {
                </div>
             </div>
 
-            <div className="user-body ">
+            <div className="user-body">
                <table className="table table-bordered table-dark table-hover">
                   <thead>
                      <tr>
-                        <th scope="col">No.</th>
-                        <th scope="col">Id User</th>
+                        <th className="hide-able-col" scope="col">
+                           No.
+                        </th>
+                        <th className="hide-able-col" scope="col">
+                           Id User
+                        </th>
                         <th scope="col">Email</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Gender</th>
+                        <th className="hide-able-col" scope="col">
+                           Phone
+                        </th>
+                        <th className="hide-able-col" scope="col">
+                           Type
+                        </th>
+                        <th className="hide-able-col" scope="col">
+                           Gender
+                        </th>
                         <th scope="col">Actions</th>
                      </tr>
                   </thead>
@@ -286,13 +296,15 @@ function Users(props) {
                         <>
                            {listUsers.map((item, idx) => (
                               <tr key={`row-${idx}`}>
-                                 <td>{currentPage > 1 ? idx + 1 + (currentPage - 1) * limit : idx + 1}</td>
-                                 <td>{item.id}</td>
+                                 <td className="hide-able-col">
+                                    {currentPage > 1 ? idx + 1 + (currentPage - 1) * limit : idx + 1}
+                                 </td>
+                                 <td className="hide-able-col">{item.id}</td>
                                  <td>{item.email}</td>
                                  <td>{item.username ? item.username : ''}</td>
-                                 <td>{item.phone ? item.phone : ''}</td>
-                                 <td>{item.Usertype ? item.Usertype.description : ''}</td>
-                                 <td>{item.Gender ? item.Gender.name : ''}</td>
+                                 <td className="hide-able-col">{item.phone ? item.phone : ''}</td>
+                                 <td className="hide-able-col">{item.Usertype ? item.Usertype.description : ''}</td>
+                                 <td className="hide-able-col">{item.Gender ? item.Gender.name : ''}</td>
                                  <td className="user-actions">
                                     <button
                                        className="user-btn info-btn"
