@@ -14,7 +14,7 @@ const App = () => {
    return (
       <Router>
          <div className="app">
-            {userContext.data && userContext.data.isLoading && window.location.pathname !== '/login' ? (
+            {userContext.data && userContext.data.isLoading ? (
                <div className="big-loading-wrapper">
                   <ThreeCircles
                      height="180"

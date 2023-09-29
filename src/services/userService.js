@@ -17,6 +17,10 @@ const loginUser = (loginValue, password) => {
    });
 };
 
+const logoutUser = () => {
+   return axios.post('/api/ver1/logout');
+};
+
 // CRUD Users
 const fetchAllUser = (page, limit) => {
    return axios.get(`/api/ver1/user/read?page=${page}&limit=${limit}`);
@@ -54,4 +58,4 @@ const getUserAccount = () => {
    return axios.get(`/api/ver1/account`);
 };
 
-export { registerNewUser, loginUser, fetchAllUser, deleteUser, createUser, updateUser, getUserAccount };
+export { registerNewUser, loginUser, logoutUser, fetchAllUser, deleteUser, createUser, updateUser, getUserAccount };

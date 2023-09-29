@@ -42,15 +42,16 @@ const UserProvider = ({ children }) => {
             console.log(data);
          }, 1 * 1000);
       } else {
-         console.log(123123);
          setData({ ...defaultData, isLoading: false });
       }
    };
 
    useEffect(() => {
       let currentPath = window.location.pathname;
-      if (currentPath !== '/' || currentPath !== '/login' || currentPath !== '/register') {
+      if (currentPath !== '/' && currentPath !== '/login' && currentPath !== '/register') {
          fetchUserAccount();
+      } else {
+         setData({ ...data, isLoading: false });
       }
    }, []);
 
@@ -59,7 +60,7 @@ const UserProvider = ({ children }) => {
    };
 
    const setLogout = () => {
-      setData(defaultData);
+      setData({ ...defaultData, isLoading: false });
    };
 
    return <UserContext.Provider value={{ data, setLogin, setLogout }}>{children}</UserContext.Provider>;
