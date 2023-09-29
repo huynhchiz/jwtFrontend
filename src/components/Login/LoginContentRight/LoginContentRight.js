@@ -94,13 +94,16 @@ function LoginContentRight() {
                username,
             },
          };
+
+         // set token on localStorage
+         localStorage.setItem('jwt', token);
+
          // set user context
          userContext.setLogin(data);
+         // học thêm redux để quản lý props phức tạp
 
          // chuyen huong page
          navigate('/users');
-
-         // học thêm redux để quản lý props phức tạp
       }
 
       // fail login

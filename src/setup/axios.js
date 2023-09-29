@@ -5,7 +5,8 @@ const instance = axios.create({
 });
 
 // Alter defaults after instance has been created
-// instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+// gán thêm 1 header là Authorization có giá trị là 'Bearer 'jwt'' vào request Header
+instance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`;
 
 // Add a request interceptor
 instance.interceptors.request.use(
