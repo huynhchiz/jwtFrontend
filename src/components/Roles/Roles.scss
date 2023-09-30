@@ -1,0 +1,81 @@
+.roles-container {
+   .add-role-form {
+      margin-top: 16px;
+      padding: 16px;
+      box-shadow: 0px 0px 15px -2px rgba(0, 0, 0, 0.44);
+      border-radius: 3px;
+   }
+
+   .add-role-form-title {
+      margin-bottom: 16px;
+   }
+
+   .add-role-line {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+      padding-bottom: 8px;
+      background-color: rgb(182, 188, 214);
+      border-radius: 3px;
+   }
+
+   .role-input-wrapper {
+      flex: 1;
+
+      + .role-input-wrapper {
+         margin-left: 16px;
+      }
+
+      .role-label {
+         display: block;
+         font-size: 14px;
+         font-weight: 600;
+      }
+
+      .role-input {
+         width: 100%;
+      }
+   }
+
+   .role-actions-wrapper {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      min-width: 80px;
+
+      .add-role-line-icon {
+         margin-left: 8px;
+         font-size: 20px;
+         color: rgb(46, 150, 60);
+         cursor: pointer;
+      }
+
+      .delete-role-line-icon {
+         margin-left: 8px;
+         font-size: 20px;
+         color: rgb(243, 74, 22);
+         cursor: pointer;
+      }
+   }
+
+   .role-add-btn-wrapper {
+      margin-top: 16px;
+
+      .add-role-btn {
+         @media (max-width: 499px) {
+            margin-top: 8px;
+            width: 100%;
+         }
+      }
+   }
+}
+
+// @media (min-width: 991px) {
+//    width: auto;
+// }
+
+// @media (max-width: 499px) {
+//    margin-top: 8px;
+//    width: 100%;
+// }
