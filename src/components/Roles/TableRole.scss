@@ -1,0 +1,38 @@
+.table-role-wrapper {
+   margin-top: 16px;
+   padding: 16px;
+   background-color: beige;
+   border-radius: 3px;
+   box-shadow: 0px 0px 15px -2px rgba(0, 0, 0, 0.44);
+
+   .role-actions {
+      .role-btn {
+         width: 28px;
+         font-size: 18px;
+         margin-right: 8px;
+         border: none;
+         outline: none;
+         background-color: transparent;
+
+         &:hover {
+            opacity: 0.6;
+         }
+      }
+      .edit-btn {
+         color: rgb(155, 155, 11);
+      }
+
+      .delete-btn {
+         color: red;
+      }
+
+      .update-btn {
+         color: rgb(0, 81, 128);
+      }
+   }
+
+   .list-roles-paginate {
+      display: flex;
+      justify-content: center;
+   }
+}

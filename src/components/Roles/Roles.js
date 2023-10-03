@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useImmer } from 'use-immer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
@@ -7,8 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
 import './Roles.scss';
 import { createNewRoles as createNewRolesService } from '../../services/roleService';
 import ModalNoti from '../reuses/ModalNoti/ModalNoti';
+import TableRole from './TableRole';
 
 const Roles = () => {
+   const tableRoleRef = useRef();
+
    const initRoleLine = { url: '', description: '', isValidUrl: true };
 
    // sử dụng useImmer thay cho useState
@@ -52,7 +55,15 @@ const Roles = () => {
       Object.entries(listRoleLine).map(([key, value], index) => {
          return result.push({ url: value.url, description: value.description });
       });
-      return result;
+
+      if (result && result.length > 0) {
+         // remove the duplicate urls input
+         let finalResult = result.filter(
+            (value, index, self) => index === self.findIndex((valueCheck) => valueCheck.name === value.name),
+         );
+
+         return finalResult;
+      }
    };
 
    const handleSaveAddRoles = async () => {
@@ -77,6 +88,9 @@ const Roles = () => {
                isShow: true,
                message: res.EM,
             });
+
+            setListRoleLine({ [`line${uuidv4()}`]: initRoleLine });
+            tableRoleRef.current.fetchRoles();
          }
       }
    };
@@ -134,6 +148,10 @@ const Roles = () => {
                         Save
                      </button>
                   </div>
+               </div>
+
+               <div className="list-role-table">
+                  <TableRole ref={tableRoleRef} />
                </div>
             </div>
          </div>

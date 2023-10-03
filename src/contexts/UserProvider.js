@@ -53,6 +53,7 @@ const UserProvider = ({ children }) => {
       } else {
          setData({ ...data, isLoading: false });
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
    const setLogin = (userData) => {
