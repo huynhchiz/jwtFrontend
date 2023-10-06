@@ -107,7 +107,7 @@ function LoginContentRight() {
       }
 
       // fail login
-      if (res && +res.EC !== 0) {
+      else if (res && +res.EC !== 0) {
          setIncorrectLogin({
             isIncorrect: true,
             message: res.EM,
@@ -115,6 +115,8 @@ function LoginContentRight() {
 
          console.log('fail: ', res.EM);
          return;
+      } else {
+         console.log(res.EM);
       }
    };
 

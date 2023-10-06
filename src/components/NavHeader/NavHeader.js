@@ -54,6 +54,9 @@ const NavHeader = (props) => {
                         <NavLink className="nav-link" to="/roles">
                            Roles
                         </NavLink>
+                        <NavLink className="nav-link" to="/usertype-roles">
+                           Users-Roles
+                        </NavLink>
                      </Nav>
                      {userContext.data && userContext.data.isAuthenticated === true ? (
                         // nếu đã login

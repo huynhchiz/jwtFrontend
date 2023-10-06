@@ -1,0 +1,55 @@
+.usertype-role-container {
+   .usertype-role-wrapper {
+      margin-top: 16px;
+      display: flex;
+
+      @media (max-width: 500px) {
+         display: block;
+      }
+   }
+
+   h4 {
+      font-size: 24px;
+   }
+
+   .usertype-container {
+      height: fit-content;
+      margin-right: 16px;
+      margin-bottom: 16px;
+      padding: 16px;
+      box-shadow: 0px 0px 15px -2px rgba(0, 0, 0, 0.44);
+      border-radius: 3px;
+
+      @media (max-width: 500px) {
+         margin-right: 0;
+      }
+   }
+
+   .roles-container {
+      padding: 16px;
+      box-shadow: 0px 0px 15px -2px rgba(0, 0, 0, 0.44);
+      border-radius: 3px;
+      background-color: beige;
+      flex: 1;
+   }
+
+   .select-form {
+      width: 150px;
+   }
+
+   .role-wrapper {
+      display: flex;
+      align-items: center;
+      margin-top: 4px;
+   }
+
+   .role-label {
+      margin-right: 12px;
+      margin-top: 4px;
+   }
+
+   .save-roles-btn-wrapper {
+      margin-top: 12px;
+      text-align: center;
+   }
+}

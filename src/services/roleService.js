@@ -5,7 +5,11 @@ const createNewRoles = (newRoles) => {
 };
 
 const readRoles = (page, limit) => {
-   return axios.get(`/api/ver1/role/read?page=${page}&limit=${limit}`);
+   if (!page && !limit) {
+      return axios.get(`/api/ver1/role/read?page=1&limit=999`);
+   } else {
+      return axios.get(`/api/ver1/role/read?page=${page}&limit=${limit}`);
+   }
 };
 
 const deleteRole = (id) => {
@@ -19,4 +23,12 @@ const updateRole = (description, currentId) => {
    });
 };
 
-export { createNewRoles, readRoles, deleteRole, updateRole };
+const getRolesByUsertype = (usertypeId) => {
+   return axios.get(`/api/ver1/role/by-usertype/${usertypeId}`);
+};
+
+const assignRolesToUsertype = (data) => {
+   return axios.post('/api/ver1/role/assign-to-usertype', data);
+};
+
+export { createNewRoles, readRoles, deleteRole, updateRole, getRolesByUsertype, assignRolesToUsertype };

@@ -6,6 +6,7 @@ import Register from '../components/Register/Register';
 import Users from '../components/Users/Users';
 import Projects from '../components/Projects/Projects';
 import Roles from '../components/Roles/Roles';
+import UsertypeRoles from '../components/UsertypeRoles/UsertypeRoles';
 
 function AppRoutes() {
    return (
@@ -21,6 +22,7 @@ function AppRoutes() {
                <Route path="/users" exact element={<Users />} />
                <Route path="/projects" exact element={<Projects />} />
                <Route path="/roles" exact element={<Roles />} />
+               <Route path="/usertype-roles" exact element={<UsertypeRoles />} />
             </Route>
 
             {/*  */}
