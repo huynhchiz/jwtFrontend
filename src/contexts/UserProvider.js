@@ -46,13 +46,14 @@ const UserProvider = ({ children }) => {
       }
    };
 
+   // fetch data if page reload
    useEffect(() => {
-      let currentPath = window.location.pathname;
-      if (currentPath !== '/' && currentPath !== '/login' && currentPath !== '/register') {
-         fetchUserAccount();
-      } else {
-         setData({ ...data, isLoading: false });
-      }
+      // let currentPath = window.location.pathname;
+      // if (currentPath !== '/' && currentPath !== '/login' && currentPath !== '/register' )
+      fetchUserAccount();
+      // } else {
+      //    setData({ ...data, isLoading: false });
+      // }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 

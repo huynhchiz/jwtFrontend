@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useRef, useContext } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 
 import './LoginContentRight.scss';
 import { UserContext } from '../../../contexts/UserProvider';
@@ -8,7 +8,6 @@ import { loginUser } from '../../../services/userService';
 function LoginContentRight() {
    const [loginValue, setLoginValue] = useState('');
    const [password, setPassword] = useState('');
-
    const [incorrectLogin, setIncorrectLogin] = useState({
       isIncorrect: false,
       message: '',
@@ -21,9 +20,21 @@ function LoginContentRight() {
 
    // hook de dieu huong trang cua react-router-dom
    const navigate = useNavigate();
+
    const handleRegisterPage = () => {
       navigate('/register');
    };
+
+   const handleHomePage = () => {
+      navigate('/');
+   };
+
+   useEffect(() => {
+      if (userContext.data && userContext.data.isAuthenticated) {
+         navigate('/');
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    // hien thi warning
    const warnInput = (input) => {
@@ -94,14 +105,10 @@ function LoginContentRight() {
                username,
             },
          };
-
          // set token on localStorage
          localStorage.setItem('jwt', token);
-
          // set user context
          userContext.setLogin(data);
-         // học thêm redux để quản lý props phức tạp
-
          // chuyen huong page
          navigate('/users');
       }
@@ -132,7 +139,7 @@ function LoginContentRight() {
       <div className="login-content-right">
          <div className="form-login">
             <div className="title">
-               <h1>facebook</h1>
+               <h1 onClick={handleHomePage}>facebook</h1>
             </div>
 
             <div className="input-wrapper">

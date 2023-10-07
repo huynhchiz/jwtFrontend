@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const instance = axios.create({
-   baseURL: 'http://localhost:1997',
+   // baseURL: 'http://localhost:1997',
+   baseURL: BACKEND_URL,
 });
 
 // Alter defaults after instance has been created

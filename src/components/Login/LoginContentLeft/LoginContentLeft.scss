@@ -12,6 +12,7 @@
          font-size: 60px;
          font-weight: 700;
          color: #1877f2;
+         cursor: pointer;
 
          // 500 < screen < 900
          @media (max-width: 900px) and (min-width: 500px) {
