@@ -1,0 +1,67 @@
+.big-loading-wrapper {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -55%);
+
+   .loading-description {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+
+      p {
+         margin-right: 8px;
+         letter-spacing: 12px;
+         font-size: 24px;
+
+         .loadspan1 {
+            animation: loading-text 1s ease infinite;
+            animation-delay: 0s;
+            color: #ffd700;
+         }
+         .loadspan2 {
+            animation: loading-text 1s ease infinite;
+            animation-delay: 0.1s;
+            color: #adff2f;
+         }
+         .loadspan3 {
+            animation: loading-text 1s ease infinite;
+            animation-delay: 0.2s;
+            color: #ff69b4;
+         }
+         .loadspan4 {
+            animation: loading-text 1s ease infinite;
+            animation-delay: 0.3s;
+            color: #20b2aa;
+         }
+         .loadspan5 {
+            animation: loading-text 1s ease infinite;
+            animation-delay: 0.4s;
+            color: #ff4500;
+         }
+         .loadspan6 {
+            animation: loading-text 1s ease infinite;
+            animation-delay: 0.5s;
+            color: #db7093;
+         }
+         .loadspan7 {
+            animation: loading-text 1s ease infinite;
+            animation-delay: 0.6s;
+            color: #800080;
+         }
+      }
+   }
+
+   @keyframes loading-text {
+      0% {
+         opacity: 0.2;
+      }
+      50% {
+         opacity: 1;
+      }
+      100% {
+         opacity: 0.2;
+      }
+   }
+}

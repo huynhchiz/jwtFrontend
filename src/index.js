@@ -2,15 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+// import UserProvider from './contexts/UserProvider';
+import { Provider } from 'react-redux';
 
-import UserProvider from './contexts/UserProvider';
+import store from './redux/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
    // <React.StrictMode>
-   <UserProvider>
+   // <UserProvider>
+   <Provider store={store}>
       <App />,
-   </UserProvider>,
+   </Provider>,
+   // </UserProvider>,
    // </React.StrictMode>,
 );
 

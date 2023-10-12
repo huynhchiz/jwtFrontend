@@ -1,45 +1,34 @@
-import { useContext } from 'react';
+// import { useContext } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ThreeCircles } from 'react-loader-spinner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './App.scss';
 import NavHeader from './components/NavHeader/NavHeader';
 import AppRoutes from './routes/AppRoutes';
-import { UserContext } from './contexts/UserProvider';
+import LoadingPage from './components/reuses/LoadingPage/LoadingPage';
+// import { UserContext } from './contexts/UserProvider';
+import { fetchCurrentUser } from './currentUserSlice/currentUserSlice';
+import { loadingUserSelector } from './redux/selectors';
 
 const App = () => {
-   const userContext = useContext(UserContext);
+   // fetch user account redux
+   const dispatch = useDispatch();
+   useEffect(() => {
+      dispatch(fetchCurrentUser());
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   const loadingUser = useSelector(loadingUserSelector);
+
+   // const userContext = useContext(UserContext);
 
    return (
       <Router>
          <div className="app">
-            {userContext.data && userContext.data.isLoading ? (
-               <div className="big-loading-wrapper">
-                  <ThreeCircles
-                     height="180"
-                     width="180"
-                     color="#4fa94d"
-                     wrapperStyle={{}}
-                     wrapperClass=""
-                     visible={true}
-                     ariaLabel="three-circles-rotating"
-                     outerCircleColor="#00CED1"
-                     innerCircleColor="#FF1493"
-                     middleCircleColor="#ADFF2F"
-                  />
-                  <div className="loading-description">
-                     <p>
-                        <span className="loadspan1">L</span>
-                        <span className="loadspan2">o</span>
-                        <span className="loadspan3">a</span>
-                        <span className="loadspan4">d</span>
-                        <span className="loadspan5">i</span>
-                        <span className="loadspan6">n</span>
-                        <span className="loadspan7">g</span>
-                     </p>
-                  </div>
-               </div>
+            {loadingUser && loadingUser === 'loading' ? (
+               <LoadingPage />
             ) : (
                <>
                   <div className="app-header">

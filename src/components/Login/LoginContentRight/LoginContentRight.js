@@ -1,11 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState, useRef, useContext } from 'react';
+import { useEffect, useState, useRef /*, useContext*/ } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import './LoginContentRight.scss';
-import { UserContext } from '../../../contexts/UserProvider';
+// import { UserContext } from '../../../contexts/UserProvider';
 import { loginUser } from '../../../services/userService';
+import currentUserSlice from '../../../currentUserSlice/currentUserSlice';
+import { currentUserSelector } from '../../../redux/selectors';
 
 function LoginContentRight() {
+   const dispatch = useDispatch();
+   const currentUser = useSelector(currentUserSelector);
+
    const [loginValue, setLoginValue] = useState('');
    const [password, setPassword] = useState('');
    const [incorrectLogin, setIncorrectLogin] = useState({
@@ -16,7 +22,7 @@ function LoginContentRight() {
    const loginValueRef = useRef();
    const passwordRef = useRef();
 
-   const userContext = useContext(UserContext);
+   // const userContext = useContext(UserContext);
 
    // hook de dieu huong trang cua react-router-dom
    const navigate = useNavigate();
@@ -30,7 +36,11 @@ function LoginContentRight() {
    };
 
    useEffect(() => {
-      if (userContext.data && userContext.data.isAuthenticated) {
+      // if (userContext.data && userContext.data.isAuthenticated) {
+      //    navigate('/');
+      // }
+
+      if (currentUser.currentUser && currentUser.isAuthenticated) {
          navigate('/');
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,7 +93,7 @@ function LoginContentRight() {
          return;
       }
 
-      //
+      // api login
       let res = await loginUser(loginValue, password);
 
       // success login
@@ -107,8 +117,13 @@ function LoginContentRight() {
          };
          // set token on localStorage
          localStorage.setItem('jwt', token);
+
          // set user context
-         userContext.setLogin(data);
+         // userContext.setLogin(data);
+
+         // set redux current user login
+         dispatch(currentUserSlice.actions.loginUser(data));
+
          // chuyen huong page
          navigate('/users');
       }

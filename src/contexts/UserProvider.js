@@ -39,7 +39,6 @@ const UserProvider = ({ children }) => {
          // set user context
          setTimeout(() => {
             setData(data);
-            console.log(data);
          }, 1 * 1000);
       } else {
          setData({ ...defaultData, isLoading: false });
