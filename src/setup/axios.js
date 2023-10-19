@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import { useDispatch } from 'react-redux';
-import { refreshUser } from '../currentUserSlice/currentUserSlice';
 import store from '../redux/store';
+import currentUserSlice, { refreshUser, logoutUserApi } from '../currentUserSlice/currentUserSlice';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -57,10 +57,15 @@ instance.interceptors.response.use(
             console.log(`You don't have permission to access...`);
             console.log('403 err: ', error.response.data);
 
-            // token expired
+            // token expired => refresh token user
             if (+error.response.data.EC === -3) {
                store.dispatch(refreshUser());
+               return error.response.data;
             }
+
+            // store.dispatch(logoutUser());
+            store.dispatch(currentUserSlice.actions.logoutUser());
+            store.dispatch(logoutUserApi());
             // return Promise.reject(error);
             return error.response.data;
          }
