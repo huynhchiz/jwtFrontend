@@ -99,24 +99,28 @@ function LoginContentRight() {
       // success login
       if (res && +res.EC === 0) {
          console.log('success: ', res.EM);
+         console.log(res.DT);
 
          // set user login session / context
          let usertypeWithRoles = res.DT.usertypeWithRoles;
          let email = res.DT.email;
          let username = res.DT.username;
          let token = res.DT.access_token;
+         let refreshToken = res.DT.refresh_token;
 
          let data = {
             isAuthenticated: true,
             token,
+            refreshToken,
             account: {
                usertypeWithRoles,
                email,
                username,
             },
          };
-         // set token on localStorage
+         // set jwt on localStorage
          localStorage.setItem('jwt', token);
+         localStorage.setItem('refreshToken', refreshToken);
 
          // set user context
          // userContext.setLogin(data);

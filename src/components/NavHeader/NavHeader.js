@@ -30,6 +30,7 @@ const NavHeader = (props) => {
       // userContext.setLogout(); // clear user react context (log out)
       dispatch(currentUserSlice.actions.logoutUser()); // clear user redux (log out)
       localStorage.removeItem('jwt'); // clear token localStorage
+      localStorage.removeItem('refreshToken');
       let logoutData = await logoutUser(); // call API logout (clear token cookie)
       if (logoutData && +logoutData.EC === 0) {
          console.log(logoutData.EM);

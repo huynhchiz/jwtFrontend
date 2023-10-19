@@ -1,4 +1,7 @@
 import axios from '../setup/axios';
+import store from '../redux/store';
+
+const state = store.getState();
 
 // register | login Users
 const registerNewUser = (email, phone, username, password) => {
@@ -15,6 +18,13 @@ const loginUser = (loginValue, password) => {
       loginValue,
       password,
    });
+};
+
+const refreshToken = () => {
+   let email = state.currentUser.currentUser.account.email;
+   let phone = null;
+   // let refreshToken = state.currentUser.currentUser.refreshToken;
+   return axios.post('/api/ver1/refresh-token', email, phone);
 };
 
 const logoutUser = () => {
@@ -58,4 +68,14 @@ const getUserAccount = () => {
    return axios.get(`/api/ver1/account`);
 };
 
-export { registerNewUser, loginUser, logoutUser, fetchAllUser, deleteUser, createUser, updateUser, getUserAccount };
+export {
+   registerNewUser,
+   loginUser,
+   refreshToken,
+   logoutUser,
+   fetchAllUser,
+   deleteUser,
+   createUser,
+   updateUser,
+   getUserAccount,
+};

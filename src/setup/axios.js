@@ -1,4 +1,7 @@
 import axios from 'axios';
+// import { useDispatch } from 'react-redux';
+import { refreshUser } from '../currentUserSlice/currentUserSlice';
+import store from '../redux/store';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -32,6 +35,8 @@ instance.interceptors.response.use(
       return response.data;
    },
    function (error) {
+      // const dispatch = useDispatch()
+
       // Any status codes that falls outside the range of 2xx cause this function to trigger
       // Do something with response error
 
@@ -50,6 +55,12 @@ instance.interceptors.response.use(
          // forbidden (permission related issues)
          case 403: {
             console.log(`You don't have permission to access...`);
+            console.log('403 err: ', error.response.data);
+
+            // token expired
+            if (+error.response.data.EC === -3) {
+               store.dispatch(refreshUser());
+            }
             // return Promise.reject(error);
             return error.response.data;
          }
