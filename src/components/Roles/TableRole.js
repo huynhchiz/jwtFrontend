@@ -13,7 +13,12 @@ import {
 import ModalDelete from '../reuses/ModalDelete/ModalDelete';
 import ModalNoti from '../reuses/ModalNoti/ModalNoti';
 
+import { useDispatch } from 'react-redux';
+import currentUserSlice from '../../currentUserSlice/currentUserSlice';
+
 const TableRole = forwardRef((props, ref) => {
+   const dispatch = useDispatch();
+
    useImperativeHandle(ref, () => ({
       fetchRoles,
    }));
@@ -21,7 +26,10 @@ const TableRole = forwardRef((props, ref) => {
    const limit = 3;
 
    const fetchRoles = async () => {
-      let res = await readRolesService(currentPage, limit);
+      let dataPage = { page: currentPage, limit };
+      // dispatch(currentUserSlice.actions.setCurrentApi([readRolesService, dataPage]));
+
+      let res = await readRolesService(dataPage);
       if (res && +res.EC === 0) {
          setListRole(res.DT.rolesInOnePage);
          setTotalPage(res.DT.totalPage);
@@ -76,6 +84,8 @@ const TableRole = forwardRef((props, ref) => {
 
    // delete role by 'selected role'
    const handleSaveDelete = async () => {
+      dispatch(currentUserSlice.actions.setCurrentApi([deleteRoleService, selectRole.currentId]));
+
       let res = await deleteRoleService(selectRole.currentId);
       if (res) {
          console.log(res);
@@ -108,7 +118,13 @@ const TableRole = forwardRef((props, ref) => {
    };
 
    const handleSaveUpdateRole = async () => {
-      let res = await updateRoleService(selectRole.description, selectRole.currentId);
+      let dataUpdate = {
+         description: selectRole.description,
+         currentId: selectRole.currentId,
+      };
+      dispatch(currentUserSlice.actions.setCurrentApi([updateRoleService, dataUpdate]));
+
+      let res = await updateRoleService(dataUpdate);
 
       if (res && +res.EC === 0) {
          console.log(res.EM);

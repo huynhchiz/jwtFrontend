@@ -40,11 +40,11 @@ function LoginContentRight() {
       //    navigate('/');
       // }
 
-      if (currentUser.currentUser && currentUser.isAuthenticated) {
+      if (currentUser && currentUser.isAuthenticated) {
          navigate('/');
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
+   }, [currentUser]);
 
    // hien thi warning
    const warnInput = (input) => {

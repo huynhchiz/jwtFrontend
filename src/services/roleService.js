@@ -4,7 +4,14 @@ const createNewRoles = (newRoles) => {
    return axios.post('/api/ver1/role/create', newRoles);
 };
 
-const readRoles = (page, limit) => {
+const readRoles = (data) => {
+   let page = null;
+   let limit = null;
+   if (data) {
+      page = data.page;
+      limit = data.limit;
+   }
+
    if (!page && !limit) {
       return axios.get(`/api/ver1/role/read?page=1&limit=999`);
    } else {
@@ -16,7 +23,10 @@ const deleteRole = (id) => {
    return axios.delete(`/api/ver1/role/delete`, { data: { id: id } });
 };
 
-const updateRole = (description, currentId) => {
+const updateRole = (data) => {
+   let description = data.description;
+   let currentId = data.currentId;
+
    return axios.put(`/api/ver1/role/update`, {
       description,
       currentId,

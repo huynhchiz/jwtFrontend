@@ -13,7 +13,7 @@ import { logoutUser } from '../../services/userService';
 import { currentUserSelector } from '../../redux/selectors';
 import currentUserSlice from '../../currentUserSlice/currentUserSlice';
 
-const NavHeader = (props) => {
+const NavHeader = () => {
    // get current location (url)
    const location = useLocation();
 

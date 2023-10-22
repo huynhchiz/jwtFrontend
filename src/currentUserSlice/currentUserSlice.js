@@ -4,6 +4,7 @@ import {
    refreshToken as refreshTokenService,
    logoutUser as logoutUserService,
 } from '../services/userService';
+import store from '../redux/store';
 
 const initUser = {
    //    isLoading: true,
@@ -29,6 +30,9 @@ const currentUserSlice = createSlice({
 
          localStorage.removeItem('jwt');
          localStorage.removeItem('refreshToken');
+      },
+      setCurrentApi: (state, action) => {
+         state.currentApi = action.payload;
       },
    },
    extraReducers: (builder) => {
@@ -69,6 +73,7 @@ const currentUserSlice = createSlice({
 });
 export default currentUserSlice;
 
+// fetch user
 export const fetchCurrentUser = createAsyncThunk('currentUser/fetchCurrentUser', async () => {
    let res = await getUserAccountService();
 
@@ -89,6 +94,7 @@ export const fetchCurrentUser = createAsyncThunk('currentUser/fetchCurrentUser',
    return initUser;
 });
 
+// refresh user if token is expired
 export const refreshUser = createAsyncThunk('currentUser/refreshUser', async () => {
    let newRes = await refreshTokenService();
 
@@ -103,6 +109,18 @@ export const refreshUser = createAsyncThunk('currentUser/refreshUser', async () 
             username: newRes.DT.username,
          },
       };
+
+      // resend current api
+      let state = store.getState();
+      let currentApi = state.currentUser.currentApi;
+      let unfinishedApi = currentApi[0];
+      let dataApi = currentApi[1];
+
+      let res1 = await unfinishedApi(dataApi);
+      if (res1) {
+         console.log('res1 from unfinished api: ', res1);
+      }
+
       return data;
    }
    return initUser;

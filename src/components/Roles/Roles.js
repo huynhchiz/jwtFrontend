@@ -9,7 +9,11 @@ import { createNewRoles as createNewRolesService } from '../../services/roleServ
 import ModalNoti from '../reuses/ModalNoti/ModalNoti';
 import TableRole from './TableRole';
 
+import { useDispatch } from 'react-redux';
+import currentUserSlice from '../../currentUserSlice/currentUserSlice';
+
 const Roles = () => {
+   const dispatch = useDispatch();
    const tableRoleRef = useRef();
 
    const initRoleLine = { url: '', description: '', isValidUrl: true };
@@ -80,8 +84,11 @@ const Roles = () => {
       } else {
          // call api create roles
          let data = buildDataToPersist();
-         let res = await createNewRolesService(data);
 
+         // set current Api neu token expired thi sau khi refresh token api se auto goi lai
+         dispatch(currentUserSlice.actions.setCurrentApi([createNewRolesService, data]));
+
+         let res = await createNewRolesService(data);
          if (res && +res.EC === 0) {
             console.log(res.EM, res.DT);
             setShowNotiModal({

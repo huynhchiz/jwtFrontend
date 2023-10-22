@@ -6,7 +6,12 @@ import { fetchAllUsertype } from '../../services/usertypeService';
 import { getRolesByUsertype, readRoles, assignRolesToUsertype } from '../../services/roleService';
 import ModalNoti from '../reuses/ModalNoti/ModalNoti';
 
+import { useDispatch } from 'react-redux';
+import currentUserSlice from '../../currentUserSlice/currentUserSlice';
+
 const UsertypeRoles = () => {
+   const dispatch = useDispatch();
+
    const noneSelectOption = [
       {
          id: 0,
@@ -26,20 +31,23 @@ const UsertypeRoles = () => {
    });
 
    useEffect(() => {
-      getApiUsertypes();
       getApiAllRole();
+      getApiUsertypes();
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
    const getApiAllRole = async () => {
-      let res = await readRoles();
+      dispatch(currentUserSlice.actions.setCurrentApi([readRoles]));
 
+      let res = await readRoles();
       if (res && +res.EC === 0) {
          setAllRoles(res.DT.allRoles);
       }
    };
 
    const getApiUsertypes = async () => {
+      dispatch(currentUserSlice.actions.setCurrentApi([fetchAllUsertype]));
+
       let res = await fetchAllUsertype();
       if (res && +res.EC === 0) {
          setListTypes(noneSelectOption.concat(res.DT));
@@ -47,6 +55,8 @@ const UsertypeRoles = () => {
    };
 
    const getApiRolesByUserType = async (id) => {
+      dispatch(currentUserSlice.actions.setCurrentApi([getRolesByUsertype, id]));
+
       let res = await getRolesByUsertype(id);
       if (res && +res.EC === 0) {
          let roleByUt = res.DT.rolesByUserType;
@@ -87,6 +97,9 @@ const UsertypeRoles = () => {
 
    const handleSaveAssign = async () => {
       let data = buildDataToSave();
+
+      dispatch(currentUserSlice.actions.setCurrentApi([assignRolesToUsertype, data]));
+
       let res = await assignRolesToUsertype(data);
       if (res && +res.EC === 0) {
          console.log(res.EM);
@@ -106,7 +119,7 @@ const UsertypeRoles = () => {
                   <select className="select-form" value={selectedUtId} onChange={(e) => handleChangeUsertype(e)}>
                      {listTypes.length > 0 &&
                         listTypes.map((item, idx) => (
-                           <option hidden={item.id === 0} value={item.id} key={`type-${idx}`}>
+                           <option hidden={item.id === 0} value={item.id} key={`type-${item.id}`}>
                               {item.description}
                            </option>
                         ))}

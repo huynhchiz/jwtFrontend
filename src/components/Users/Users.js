@@ -19,7 +19,12 @@ import checkValidPassword from '../../functions/checkValidPassword';
 import { faInfo, faPenFancy, faPlus, faRotate } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
-function Users(props) {
+import { useDispatch } from 'react-redux';
+import currentUserSlice from '../../currentUserSlice/currentUserSlice';
+
+function Users() {
+   const dispatch = useDispatch();
+
    const [listUsers, setListUsers] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
    const [totalPage, setTotalPage] = useState(0);
@@ -88,6 +93,8 @@ function Users(props) {
 
    // delete user by 'selected user'
    const handleSaveDelete = async (user) => {
+      dispatch(currentUserSlice.actions.setCurrentApi([deleteUserService, user.id]));
+
       let data = await deleteUserService(user.id);
       if (data) {
          console.log(data);
@@ -141,7 +148,18 @@ function Users(props) {
 
       if (isAllFilledIn) {
          if (validEmail && validPassword && confirmPassword === password) {
-            let res = await createUserService(email, phone, username, password, address, genderId, usertypeId);
+            let dataSave = {
+               email,
+               phone,
+               username,
+               password,
+               address,
+               genderId,
+               usertypeId,
+            };
+            dispatch(currentUserSlice.actions.setCurrentApi([createUserService, dataSave]));
+
+            let res = await createUserService(dataSave);
 
             // register success
             if (parseInt(res.EC) === 0) {
@@ -198,7 +216,18 @@ function Users(props) {
 
       if (isAllRequired) {
          if (validEmail) {
-            let res = await updateUserService(email, phone, username, address, selectUser.id, genderId, usertypeId);
+            let dataSave = {
+               newEmail: email,
+               newPhone: phone,
+               newUsername: username,
+               newAddress: address,
+               currentId: selectUser.id,
+               newGenderId: genderId,
+               newUsertypeId: usertypeId,
+            };
+            dispatch(currentUserSlice.actions.setCurrentApi([updateUserService, dataSave]));
+
+            let res = await updateUserService(dataSave);
 
             // update success
             if (+res.EC === 0) {

@@ -1,7 +1,6 @@
 import axios from 'axios';
-// import { useDispatch } from 'react-redux';
 import store from '../redux/store';
-import currentUserSlice, { refreshUser, logoutUserApi } from '../currentUserSlice/currentUserSlice';
+import { refreshUser } from '../currentUserSlice/currentUserSlice';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -62,10 +61,6 @@ instance.interceptors.response.use(
                store.dispatch(refreshUser());
                return error.response.data;
             }
-
-            // store.dispatch(logoutUser());
-            store.dispatch(currentUserSlice.actions.logoutUser());
-            store.dispatch(logoutUserApi());
             // return Promise.reject(error);
             return error.response.data;
          }
